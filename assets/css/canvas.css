@@ -1,0 +1,80 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 95vh;
+  background-color: aliceblue;
+}
+
+.tetris-title-container {
+  height: 15%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  text-transform: uppercase; 
+  background-color: beige;
+}
+
+.tetris-title {
+ 
+}
+
+.tetris-canvas-container {
+  height: 85%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.tetris-canvas-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 200px;
+  height: 100%;
+  border: 1px solid red;
+}
+
+.tetris-hold {
+  width: 200px;
+  height: 20%;
+  border: 1px solid blue;
+  background-color: bisque
+}
+
+.tetris-score {
+  width: 200px;
+  height: 60%;
+  border: 1px solid blue;
+  background-color: aqua
+}
+
+.tetris-canvas-middle {
+  width: auto;
+  height: auto;
+}
+
+#tetris {
+  height: 100%;
+  width: 40vw;
+  min-height: 400px;
+  min-width: 200px;
+  border: 5px solid #000000;
+}
+
+.tetris-canvas-right {
+  width: 200px;
+  height: 100%;
+  border: 1px solid red;
+}
+
+.tetris-preview {
+  width: 200px;
+  height: 40%;
+  border: 1px solid green;
+}
