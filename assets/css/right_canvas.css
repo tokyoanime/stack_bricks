@@ -1,0 +1,11 @@
+.tetris-canvas-right {
+  width: 200px;
+  height: 100%;
+  border: 1px solid red;
+}
+
+.tetris-preview {
+  width: 200px;
+  height: 40%;
+  border: 1px solid green;
+}

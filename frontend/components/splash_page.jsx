@@ -1,12 +1,12 @@
 import React from 'react';
+import LeftCanvas from './left_canvas';
+import MiddleCanvas from './middle_canvas';
+import RightCanvas from './right_canvas';
 
 class SplashPage extends React.Component {
 
   handleModal(e, currentModalId) {
-    // const currentClass = e.currentTarget.className[0].toUpperCase() + e.currentTarget.className.slice(1);
-    // const currentModalId = "myModal" + currentClass;
     const currentModal = document.getElementById(currentModalId);
-
     currentModal.style.display = "block";
   }
 
@@ -35,22 +35,9 @@ class SplashPage extends React.Component {
           </div>
         </div>
         <div className="tetris-canvas-container">
-          <div className="tetris-canvas-left">
-            <div className="tetris-hold">
-
-            </div>
-            <div className="tetris-score">
-
-            </div>
-          </div>
-          <div className="tetris-canvas-middle">
-            <canvas id="tetris"></canvas>
-          </div>
-          <div className="tetris-canvas-right">
-            <div className="tetris-preview">
-
-            </div>
-          </div>
+          {<LeftCanvas />}
+          {<MiddleCanvas />}
+          {<RightCanvas />}
         </div>
 
         <div id="myModalAbout" className="modal">
