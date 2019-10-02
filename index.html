@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Stack Bricks by Lwin Ye</title>
   <link rel="stylesheet" href="./assets/css/canvas.css">
+  <link rel="stylesheet" href="./assets/css/modal.css">
   <link
     href="https://fonts.googleapis.com/css?family=Orbitron|Permanent+Marker&display=swap"
     rel="stylesheet">
@@ -15,6 +16,20 @@
     <div class="tetris-title-container">
       <div class="tetris-title">
         Stack Bricks
+      </div>
+      <div class="tetris-title-nav">
+        <div class="about" id="modelContent">
+          About
+        </div>
+        <div class="control" id="modelContent">
+          Control
+        </div>
+        <div class="objective" id="modelContent">
+          Objective          
+        </div>
+        <div class="gameplay-info" id="modelContent">
+          General Gameplay Info
+        </div>
       </div>
     </div>
     <div class="tetris-canvas-container">
@@ -35,8 +50,20 @@
         </div>
       </div>
     </div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span class="close">&times;</span>
+          About
+        </div>
+        <div class="modal-body">
+          Stack Bricks is a clone of a popular classic Tetris game.
+        </div>
+      </div>
+    </div>
   </div>
-  
-  <script src="./assets/javascripts/bundle.js"></script>
+
+  <script src="./frontend/stack_brick.js"></script>
 </body>
 </html>
