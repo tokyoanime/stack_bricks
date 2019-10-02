@@ -21,7 +21,7 @@ class LeftCanvas extends React.Component {
             SCORE
           </div>
           <div className="score-display">
-
+            
           </div>
         </div>
       </div>

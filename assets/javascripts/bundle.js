@@ -264,8 +264,10 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tetris-canvas-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "tetris-preview"
-      }, "Preview"));
+        className: "tetris-preview-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "preview-title"
+      }, "Preview")));
     }
   }]);
 
@@ -356,18 +358,18 @@ function (_React$Component) {
           return _this.handleModal(e, "myModalAbout");
         }
       }, "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "control",
-        id: "modalContent",
-        onClick: function onClick(e) {
-          return _this.handleModal(e, "myModalControl");
-        }
-      }, "Control"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "gameplay-info",
         id: "modalContent",
         onClick: function onClick(e) {
           return _this.handleModal(e, "myModalGamePlayInfo");
         }
-      }, "Gameplay Info"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Gameplay Info"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "control",
+        id: "modalContent",
+        onClick: function onClick(e) {
+          return _this.handleModal(e, "myModalControl");
+        }
+      }, "Control"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tetris-canvas-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_left_canvas__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_middle_canvas__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_right_canvas__WEBPACK_IMPORTED_MODULE_3__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "myModalAbout",

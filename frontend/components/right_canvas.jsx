@@ -8,8 +8,11 @@ class RightCanvas extends React.Component {
   render() {
     return (
       <div className="tetris-canvas-right">
-        <div className="tetris-preview">
-          Preview
+        <div className="tetris-preview-container">
+          <div className="preview-title">
+            Preview
+          </div>
+          
         </div>
       </div>
     )

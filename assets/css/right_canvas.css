@@ -1,11 +1,48 @@
 .tetris-canvas-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 200px;
-  height: 100%;
-  border: 1px solid red;
+  height: 540px;
+  border: 5px solid black;
 }
 
-.tetris-preview {
+.tetris-preview-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 200px;
-  height: 40%;
-  border: 1px solid green;
+}
+
+.tetris-preview-container > div {
+  width: 184px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tetris-preview-container {
+  height: 25%;
+  border: 1px solid blue;
+  background-color: bisque;
+}
+
+.preview-title, .score-title {
+  font-size: 25px;
+}
+
+.preview-title {
+
+}
+
+.preview-display {
+  height: 70%;
+}
+
+.preview-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid orangered;
 }

@@ -26,11 +26,11 @@ class SplashPage extends React.Component {
             <div className="about" id="modalContent" onClick={(e) => this.handleModal(e, "myModalAbout")}>
               About
             </div>
-            <div className="control" id="modalContent" onClick={(e) => this.handleModal(e, "myModalControl")}>
-              Control
-            </div>
             <div className="gameplay-info" id="modalContent" onClick={(e) => this.handleModal(e, "myModalGamePlayInfo")}>
               Gameplay Info
+            </div>
+            <div className="control" id="modalContent" onClick={(e) => this.handleModal(e, "myModalControl")}>
+              Control
             </div>
           </div>
         </div>

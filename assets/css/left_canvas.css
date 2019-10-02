@@ -3,23 +3,23 @@
   flex-direction: column;
   justify-content: space-between;
   width: 200px;
-  height: 100%;
-  border: 1px solid red;
+  height: 540px;
+  border: 5px solid black;
 }
 
 .tetris-hold-container, .tetris-score-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
   width: 200px;
 }
 
 .tetris-hold-container > div, .tetris-score-container > div {
-  width: 190px;
+  width: 184px;
+  padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid red;
 }
 
 .tetris-hold-container {
@@ -30,7 +30,6 @@
 
 .hold-title, .score-title {
   font-size: 25px;
-  padding: 5px;
 }
 
 .hold-title {
@@ -39,7 +38,13 @@
 
 .hold-display {
   height: 70%;
+}
 
+.hold-display, .score-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid orangered;
 }
 
 .tetris-score-container {
