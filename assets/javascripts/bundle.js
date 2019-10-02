@@ -96,11 +96,13 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _brick__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./brick */ "./assets/javascripts/brick.js");
+/* harmony import */ var _control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./control */ "./assets/javascripts/control.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -114,7 +116,7 @@ function () {
     var CANVAS_HEIGHT = 540;
     this.rowDim = 20;
     this.colDim = 10;
-    this.canvasWidth = CANVAS_WIDTH;
+    this.canvasWidth = CANVAS_WIDTH + 2.5;
     this.canvasHeight = CANVAS_HEIGHT;
     this.liveBrick = "";
     this.ctx = "";
@@ -128,7 +130,7 @@ function () {
     value: function gameLoop(timestamp) {
       var deltatime = timestamp - this.lastTime;
       this.lastTime = timestamp;
-      this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      this.ctx.clearRect(0, 0, this.canvasWidth + 50, this.canvasHeight);
       this.liveBrick.update(deltatime);
       this.liveBrick.drawBrick(this.ctx);
       requestAnimationFrame(this.gameLoop.bind(this));
@@ -140,6 +142,8 @@ function () {
       this.ctx = canvas.getContext('2d');
       this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
       this.liveBrick = new _brick__WEBPACK_IMPORTED_MODULE_0__["default"](this.canvasWidth, this.canvasHeight);
+      new _control__WEBPACK_IMPORTED_MODULE_1__["default"](this.liveBrick); // this.liveBrick.drawBrick(this.ctx);
+
       this.gameLoop();
     }
   }]);
@@ -172,10 +176,12 @@ function () {
   function Brick(CANVAS_WIDTH, CANVAS_HEIGHT) {
     _classCallCheck(this, Brick);
 
+    this.CANVAS_WIDTH = CANVAS_WIDTH;
+    this.CANVAS_HEIGHT = CANVAS_HEIGHT;
     this.width = CANVAS_WIDTH / 10;
     this.height = CANVAS_HEIGHT / 80;
     this.position = {
-      x: CANVAS_WIDTH / 2 + this.width / 2,
+      x: CANVAS_WIDTH / 10 * 5,
       y: 0
     };
   }
@@ -186,10 +192,22 @@ function () {
       ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
   }, {
+    key: "moveLeft",
+    value: function moveLeft() {
+      this.position.x -= this.CANVAS_WIDTH / 10;
+      if (this.position.x < 0) this.position.x = 0;
+    }
+  }, {
+    key: "moveRight",
+    value: function moveRight() {
+      this.position.x += this.CANVAS_WIDTH / 10;
+      if (this.position.x > this.CANVAS_WIDTH) this.position.x = this.CANVAS_WIDTH;
+    }
+  }, {
     key: "update",
     value: function update(deltaTime) {
       if (!deltaTime) return;
-      this.position.y += 2 / deltaTime;
+      this.position.y += 2 / deltaTime; // if (this.position.y > this.CANVAS_HEIGHT) this.position.y = this.CANVAS_HEIGHT;
     }
   }]);
 
@@ -197,6 +215,41 @@ function () {
 }();
 
 /* harmony default export */ __webpack_exports__["default"] = (Brick);
+
+/***/ }),
+
+/***/ "./assets/javascripts/control.js":
+/*!***************************************!*\
+  !*** ./assets/javascripts/control.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Control; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Control = function Control(liveBrick) {
+  _classCallCheck(this, Control);
+
+  document.addEventListener("keydown", function (e) {
+    switch (e.keyCode) {
+      case 37:
+        liveBrick.moveLeft();
+        break;
+
+      case 39:
+        liveBrick.moveRight();
+        break;
+
+      default:
+        break;
+    }
+  });
+};
+
+
 
 /***/ }),
 

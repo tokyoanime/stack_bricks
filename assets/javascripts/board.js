@@ -1,4 +1,5 @@
 import Brick from './brick';
+import Control from './control';
 
 class Board {
   constructor() {
@@ -6,9 +7,9 @@ class Board {
     const CANVAS_HEIGHT = 540;
     this.rowDim = 20;
     this.colDim = 10;
-    this.canvasWidth = CANVAS_WIDTH;
+    this.canvasWidth = CANVAS_WIDTH + 2.5;
     this.canvasHeight = CANVAS_HEIGHT;
-    
+
     this.liveBrick = "";
     this.ctx = "";
     this.lastTime = 0;
@@ -22,7 +23,7 @@ class Board {
     let deltatime = timestamp - this.lastTime;
     this.lastTime = timestamp;
 
-    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    this.ctx.clearRect(0, 0, this.canvasWidth + 50, this.canvasHeight);
     this.liveBrick.update(deltatime);
     this.liveBrick.drawBrick(this.ctx);
 
@@ -37,6 +38,9 @@ class Board {
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
 
     this.liveBrick = new Brick(this.canvasWidth,this.canvasHeight);
+
+    new Control(this.liveBrick);
+    // this.liveBrick.drawBrick(this.ctx);
 
     this.gameLoop();
   }
