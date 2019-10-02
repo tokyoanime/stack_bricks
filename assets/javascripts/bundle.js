@@ -86,6 +86,120 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./assets/javascripts/board.js":
+/*!*************************************!*\
+  !*** ./assets/javascripts/board.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _brick__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./brick */ "./assets/javascripts/brick.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Board =
+/*#__PURE__*/
+function () {
+  function Board() {
+    _classCallCheck(this, Board);
+
+    var CANVAS_WIDTH = 270;
+    var CANVAS_HEIGHT = 540;
+    this.rowDim = 20;
+    this.colDim = 10;
+    this.canvasWidth = CANVAS_WIDTH;
+    this.canvasHeight = CANVAS_HEIGHT;
+    this.liveBrick = "";
+    this.ctx = "";
+    this.lastTime = 0;
+    this.renderBoard();
+    this.gameLoop = this.gameLoop.bind(this);
+  }
+
+  _createClass(Board, [{
+    key: "gameLoop",
+    value: function gameLoop(timestamp) {
+      var deltatime = timestamp - this.lastTime;
+      this.lastTime = timestamp;
+      this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      this.liveBrick.update(deltatime);
+      this.liveBrick.drawBrick(this.ctx);
+      requestAnimationFrame(this.gameLoop.bind(this));
+    }
+  }, {
+    key: "renderBoard",
+    value: function renderBoard() {
+      var canvas = document.getElementById("tetris");
+      this.ctx = canvas.getContext('2d');
+      this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      this.liveBrick = new _brick__WEBPACK_IMPORTED_MODULE_0__["default"](this.canvasWidth, this.canvasHeight);
+      this.gameLoop();
+    }
+  }]);
+
+  return Board;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Board);
+
+/***/ }),
+
+/***/ "./assets/javascripts/brick.js":
+/*!*************************************!*\
+  !*** ./assets/javascripts/brick.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Brick =
+/*#__PURE__*/
+function () {
+  function Brick(CANVAS_WIDTH, CANVAS_HEIGHT) {
+    _classCallCheck(this, Brick);
+
+    this.width = CANVAS_WIDTH / 10;
+    this.height = CANVAS_HEIGHT / 80;
+    this.position = {
+      x: CANVAS_WIDTH / 2 + this.width / 2,
+      y: 0
+    };
+  }
+
+  _createClass(Brick, [{
+    key: "drawBrick",
+    value: function drawBrick(ctx) {
+      ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    }
+  }, {
+    key: "update",
+    value: function update(deltaTime) {
+      if (!deltaTime) return;
+      this.position.y += 2 / deltaTime;
+    }
+  }]);
+
+  return Brick;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Brick);
+
+/***/ }),
+
 /***/ "./frontend/components/left_canvas.jsx":
 /*!*********************************************!*\
   !*** ./frontend/components/left_canvas.jsx ***!
@@ -438,12 +552,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_splash_page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/splash_page */ "./frontend/components/splash_page.jsx");
+/* harmony import */ var _assets_javascripts_board__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/javascripts/board */ "./assets/javascripts/board.js");
+
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.getElementById("root");
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_splash_page__WEBPACK_IMPORTED_MODULE_2__["default"], null), root);
+  var newGame = new _assets_javascripts_board__WEBPACK_IMPORTED_MODULE_3__["default"]();
 });
 
 /***/ }),
