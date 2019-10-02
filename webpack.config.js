@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   context: __dirname,
-  entry: './frontend/stack_brick.js',
+  entry: './frontend/stack_brick.jsx',
   output: {
     path: path.resolve(__dirname, 'assets', 'javascripts'),
     filename: 'bundle.js'
