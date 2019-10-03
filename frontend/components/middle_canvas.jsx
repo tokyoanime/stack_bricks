@@ -8,7 +8,7 @@ class MiddleCanvas extends React.Component {
   render() {
     return(
       <div className="tetris-canvas-middle">
-        <canvas id="tetris"></canvas>
+        <canvas id="tetris" width="270" height="540"></canvas>
       </div>
     )
   }

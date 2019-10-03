@@ -86,6 +86,201 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./assets/javascripts/board.js":
+/*!*************************************!*\
+  !*** ./assets/javascripts/board.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _brick__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./brick */ "./assets/javascripts/brick.js");
+/* harmony import */ var _control__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./control */ "./assets/javascripts/control.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+var Board =
+/*#__PURE__*/
+function () {
+  function Board() {
+    _classCallCheck(this, Board);
+
+    this.CANVAS_WIDTH = 270;
+    this.CANVAS_HEIGHT = 540;
+    this.liveBrick = "";
+    this.ctx = "";
+    this.lastTime = 0;
+    this.renderBoard();
+    this.gameLoop = this.gameLoop.bind(this);
+  }
+
+  _createClass(Board, [{
+    key: "gameLoop",
+    value: function gameLoop(timestamp) {
+      var deltatime = timestamp - this.lastTime;
+      this.lastTime = timestamp;
+      this.ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+      this.liveBrick.update(deltatime);
+      this.liveBrick.drawBrick(this.ctx);
+      window.requestAnimationFrame(this.gameLoop.bind(this));
+    }
+  }, {
+    key: "renderBoard",
+    value: function renderBoard() {
+      var _this = this;
+
+      var canvas = document.getElementById("tetris");
+      this.ctx = canvas.getContext('2d');
+      this.ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+      this.liveBrick = new _brick__WEBPACK_IMPORTED_MODULE_0__["default"](this.CANVAS_WIDTH, this.CANVAS_HEIGHT); // this.liveBrick.drawBrick(this.ctx);
+
+      new _control__WEBPACK_IMPORTED_MODULE_1__["default"](this.liveBrick);
+      setInterval(function () {
+        return _this.liveBrick.drawBrick(_this.ctx);
+      }, 1000); // this.liveBrick.drawBrick(this.ctx);
+
+      this.gameLoop();
+    }
+  }]);
+
+  return Board;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Board);
+
+/***/ }),
+
+/***/ "./assets/javascripts/brick.js":
+/*!*************************************!*\
+  !*** ./assets/javascripts/brick.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Brick =
+/*#__PURE__*/
+function () {
+  function Brick(CANVAS_WIDTH, CANVAS_HEIGHT) {
+    _classCallCheck(this, Brick);
+
+    this.CANVAS_WIDTH = CANVAS_WIDTH;
+    this.CANVAS_HEIGHT = CANVAS_HEIGHT;
+    this.width = CANVAS_WIDTH / 10;
+    this.height = CANVAS_HEIGHT / 20;
+    this.downSpeed = this.height / 20;
+    this.position = {
+      x: CANVAS_WIDTH / 2 - this.width,
+      y: 0
+    };
+  }
+
+  _createClass(Brick, [{
+    key: "drawBrick",
+    value: function drawBrick(ctx) {
+      // ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+      ctx.fillRect(this.position.x, this.position.y, this.width, this.height); // this.position.y += this.height;
+    }
+  }, {
+    key: "moveLeft",
+    value: function moveLeft() {
+      this.position.x -= this.CANVAS_WIDTH / 10;
+      if (this.position.x < 0) this.position.x = 0;
+    }
+  }, {
+    key: "moveRight",
+    value: function moveRight() {
+      this.position.x += this.CANVAS_WIDTH / 10;
+      if (this.position.x + this.width > this.CANVAS_WIDTH) this.position.x = this.CANVAS_WIDTH - this.width;
+    }
+  }, {
+    key: "moveDown",
+    value: function moveDown() {
+      this.downSpeed += 5;
+    }
+  }, {
+    key: "update",
+    value: function update(deltaTime) {
+      if (!deltaTime) return;
+      this.position.y += this.downSpeed; // check for collission
+
+      if (this.position.y + this.height > this.CANVAS_HEIGHT) {
+        this.position.y = this.CANVAS_HEIGHT - this.height;
+        this.downSpeed = 0;
+      }
+    }
+  }]);
+
+  return Brick;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Brick);
+
+/***/ }),
+
+/***/ "./assets/javascripts/control.js":
+/*!***************************************!*\
+  !*** ./assets/javascripts/control.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Control; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Control = function Control(liveBrick) {
+  _classCallCheck(this, Control);
+
+  document.addEventListener("keydown", function (e) {
+    switch (e.keyCode) {
+      case 37:
+        liveBrick.moveLeft();
+        break;
+
+      case 39:
+        liveBrick.moveRight();
+        break;
+
+      case 40:
+        liveBrick.moveDown();
+        break;
+
+      default:
+        break;
+    }
+  });
+  document.addEventListener("keyup", function (e) {
+    switch (e.keyCode) {
+      case 40:
+        // alert("key down")
+        break;
+
+      default:
+        break;
+    }
+  });
+};
+
+
+
+/***/ }),
+
 /***/ "./frontend/components/left_canvas.jsx":
 /*!*********************************************!*\
   !*** ./frontend/components/left_canvas.jsx ***!
@@ -204,7 +399,9 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tetris-canvas-middle"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
-        id: "tetris"
+        id: "tetris",
+        width: "270",
+        height: "540"
       }));
     }
   }]);
@@ -438,12 +635,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_splash_page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/splash_page */ "./frontend/components/splash_page.jsx");
+/* harmony import */ var _assets_javascripts_board__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/javascripts/board */ "./assets/javascripts/board.js");
+
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.getElementById("root");
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_splash_page__WEBPACK_IMPORTED_MODULE_2__["default"], null), root);
+  var newGame = new _assets_javascripts_board__WEBPACK_IMPORTED_MODULE_3__["default"]();
 });
 
 /***/ }),
