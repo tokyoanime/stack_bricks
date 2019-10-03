@@ -8,9 +8,22 @@ export default class Control {
         case 39:
           liveBrick.moveRight();
           break;
+        case 40:
+          liveBrick.moveDown();
+          break;
         default:
           break;
       }
     });
+
+    document.addEventListener("keyup", (e) => {
+      switch (e.keyCode) {
+        case 40:
+          // alert("key down")
+          break;
+        default:
+          break;
+      }
+    })
   }
 }

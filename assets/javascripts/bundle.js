@@ -112,12 +112,8 @@ function () {
   function Board() {
     _classCallCheck(this, Board);
 
-    var CANVAS_WIDTH = 270;
-    var CANVAS_HEIGHT = 540;
-    this.rowDim = 20;
-    this.colDim = 10;
-    this.canvasWidth = CANVAS_WIDTH + 2.5;
-    this.canvasHeight = CANVAS_HEIGHT;
+    this.CANVAS_WIDTH = 270;
+    this.CANVAS_HEIGHT = 540;
     this.liveBrick = "";
     this.ctx = "";
     this.lastTime = 0;
@@ -130,19 +126,25 @@ function () {
     value: function gameLoop(timestamp) {
       var deltatime = timestamp - this.lastTime;
       this.lastTime = timestamp;
-      this.ctx.clearRect(0, 0, this.canvasWidth + 50, this.canvasHeight);
+      this.ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
       this.liveBrick.update(deltatime);
       this.liveBrick.drawBrick(this.ctx);
-      requestAnimationFrame(this.gameLoop.bind(this));
+      window.requestAnimationFrame(this.gameLoop.bind(this));
     }
   }, {
     key: "renderBoard",
     value: function renderBoard() {
+      var _this = this;
+
       var canvas = document.getElementById("tetris");
       this.ctx = canvas.getContext('2d');
-      this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-      this.liveBrick = new _brick__WEBPACK_IMPORTED_MODULE_0__["default"](this.canvasWidth, this.canvasHeight);
-      new _control__WEBPACK_IMPORTED_MODULE_1__["default"](this.liveBrick); // this.liveBrick.drawBrick(this.ctx);
+      this.ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+      this.liveBrick = new _brick__WEBPACK_IMPORTED_MODULE_0__["default"](this.CANVAS_WIDTH, this.CANVAS_HEIGHT); // this.liveBrick.drawBrick(this.ctx);
+
+      new _control__WEBPACK_IMPORTED_MODULE_1__["default"](this.liveBrick);
+      setInterval(function () {
+        return _this.liveBrick.drawBrick(_this.ctx);
+      }, 1000); // this.liveBrick.drawBrick(this.ctx);
 
       this.gameLoop();
     }
@@ -179,9 +181,10 @@ function () {
     this.CANVAS_WIDTH = CANVAS_WIDTH;
     this.CANVAS_HEIGHT = CANVAS_HEIGHT;
     this.width = CANVAS_WIDTH / 10;
-    this.height = CANVAS_HEIGHT / 80;
+    this.height = CANVAS_HEIGHT / 20;
+    this.downSpeed = this.height / 20;
     this.position = {
-      x: CANVAS_WIDTH / 10 * 5,
+      x: CANVAS_WIDTH / 2 - this.width,
       y: 0
     };
   }
@@ -189,7 +192,8 @@ function () {
   _createClass(Brick, [{
     key: "drawBrick",
     value: function drawBrick(ctx) {
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+      // ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
+      ctx.fillRect(this.position.x, this.position.y, this.width, this.height); // this.position.y += this.height;
     }
   }, {
     key: "moveLeft",
@@ -201,13 +205,23 @@ function () {
     key: "moveRight",
     value: function moveRight() {
       this.position.x += this.CANVAS_WIDTH / 10;
-      if (this.position.x > this.CANVAS_WIDTH) this.position.x = this.CANVAS_WIDTH;
+      if (this.position.x + this.width > this.CANVAS_WIDTH) this.position.x = this.CANVAS_WIDTH - this.width;
+    }
+  }, {
+    key: "moveDown",
+    value: function moveDown() {
+      this.downSpeed += 5;
     }
   }, {
     key: "update",
     value: function update(deltaTime) {
       if (!deltaTime) return;
-      this.position.y += 2 / deltaTime; // if (this.position.y > this.CANVAS_HEIGHT) this.position.y = this.CANVAS_HEIGHT;
+      this.position.y += this.downSpeed; // check for collission
+
+      if (this.position.y + this.height > this.CANVAS_HEIGHT) {
+        this.position.y = this.CANVAS_HEIGHT - this.height;
+        this.downSpeed = 0;
+      }
     }
   }]);
 
@@ -241,6 +255,20 @@ var Control = function Control(liveBrick) {
 
       case 39:
         liveBrick.moveRight();
+        break;
+
+      case 40:
+        liveBrick.moveDown();
+        break;
+
+      default:
+        break;
+    }
+  });
+  document.addEventListener("keyup", function (e) {
+    switch (e.keyCode) {
+      case 40:
+        // alert("key down")
         break;
 
       default:
@@ -371,7 +399,9 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tetris-canvas-middle"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
-        id: "tetris"
+        id: "tetris",
+        width: "270",
+        height: "540"
       }));
     }
   }]);

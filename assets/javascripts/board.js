@@ -3,12 +3,8 @@ import Control from './control';
 
 class Board {
   constructor() {
-    const CANVAS_WIDTH = 270;
-    const CANVAS_HEIGHT = 540;
-    this.rowDim = 20;
-    this.colDim = 10;
-    this.canvasWidth = CANVAS_WIDTH + 2.5;
-    this.canvasHeight = CANVAS_HEIGHT;
+    this.CANVAS_WIDTH = 270;
+    this.CANVAS_HEIGHT = 540;
 
     this.liveBrick = "";
     this.ctx = "";
@@ -23,25 +19,28 @@ class Board {
     let deltatime = timestamp - this.lastTime;
     this.lastTime = timestamp;
 
-    this.ctx.clearRect(0, 0, this.canvasWidth + 50, this.canvasHeight);
+    this.ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
     this.liveBrick.update(deltatime);
     this.liveBrick.drawBrick(this.ctx);
 
-    requestAnimationFrame(this.gameLoop.bind(this));
+    window.requestAnimationFrame(this.gameLoop.bind(this));
   }
+
 
   renderBoard() {
     const canvas = document.getElementById("tetris");
 
     this.ctx = canvas.getContext('2d');
 
-    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+    this.ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
 
-    this.liveBrick = new Brick(this.canvasWidth,this.canvasHeight);
-
-    new Control(this.liveBrick);
+    this.liveBrick = new Brick(this.CANVAS_WIDTH,this.CANVAS_HEIGHT);
     // this.liveBrick.drawBrick(this.ctx);
+    
+    new Control(this.liveBrick);
+    setInterval(() => this.liveBrick.drawBrick(this.ctx), 1000);
 
+    // this.liveBrick.drawBrick(this.ctx);
     this.gameLoop();
   }
 }
