@@ -1,6 +1,7 @@
 export default class Control {
   constructor(liveBrick) {
     document.addEventListener("keydown", (e) => {
+      e.preventDefault();
       switch (e.keyCode) {
         case 37:
           liveBrick.moveLeft();
@@ -15,15 +16,5 @@ export default class Control {
           break;
       }
     });
-
-    document.addEventListener("keyup", (e) => {
-      switch (e.keyCode) {
-        case 40:
-          // alert("key down")
-          break;
-        default:
-          break;
-      }
-    })
   }
 }

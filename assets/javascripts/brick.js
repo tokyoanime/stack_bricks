@@ -1,23 +1,36 @@
 class Brick {
+
   constructor(CANVAS_WIDTH, CANVAS_HEIGHT) {
+    this.POS_UP = [
+      [0, 1, 0],
+      [1, 1, 1],
+      [0, 0, 0]
+    ];
+
     this.CANVAS_WIDTH = CANVAS_WIDTH;
     this.CANVAS_HEIGHT = CANVAS_HEIGHT;
 
     this.width = CANVAS_WIDTH / 10;
     this.height = CANVAS_HEIGHT / 20;
 
-    this.downSpeed = this.height / 20;
-
     this.position = {
       x: CANVAS_WIDTH / 2 - this.width,
       y: 0
     }
+
+    this.dropCounter = 0;
+    this.dropInterval = 1000;
   }
 
   drawBrick(ctx) {
-    // ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-    // this.position.y += this.height;
+    this.POS_UP.forEach((row, y) => {
+      row.forEach((col, x) => {
+        if (col) {
+          ctx.fillStyle = 'black';
+          ctx.fillRect(this.position.x + (this.width * x), this.position.y + (this.width * y), this.width, this.height)
+        }
+      })
+    })
   }
 
   moveLeft() {
@@ -31,13 +44,17 @@ class Brick {
   }
 
   moveDown() {
-    this.downSpeed += 5;
+    this.position.y += this.height;
+    this.dropCounter = 0;
   }
 
   update(deltaTime) {
     if (!deltaTime) return;
 
-    this.position.y += this.downSpeed;
+    this.dropCounter += deltaTime;
+    if (this.dropCounter > this.dropInterval) {
+      this.moveDown();
+    }
 
     // check for collission
     if ((this.position.y + this.height) > this.CANVAS_HEIGHT) {

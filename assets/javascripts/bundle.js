@@ -114,6 +114,8 @@ function () {
 
     this.CANVAS_WIDTH = 270;
     this.CANVAS_HEIGHT = 540;
+    this.ROW = 20;
+    this.COL = 10;
     this.liveBrick = "";
     this.ctx = "";
     this.lastTime = 0;
@@ -122,6 +124,17 @@ function () {
   }
 
   _createClass(Board, [{
+    key: "createGrid",
+    value: function createGrid(w, h) {
+      var grid = [];
+
+      while (h--) {
+        grid.push(new Array(w).fill(0));
+      }
+
+      return grid;
+    }
+  }, {
     key: "gameLoop",
     value: function gameLoop(timestamp) {
       var deltatime = timestamp - this.lastTime;
@@ -129,23 +142,16 @@ function () {
       this.ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
       this.liveBrick.update(deltatime);
       this.liveBrick.drawBrick(this.ctx);
-      window.requestAnimationFrame(this.gameLoop.bind(this));
+      requestAnimationFrame(this.gameLoop.bind(this));
     }
   }, {
     key: "renderBoard",
     value: function renderBoard() {
-      var _this = this;
-
       var canvas = document.getElementById("tetris");
       this.ctx = canvas.getContext('2d');
       this.ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
-      this.liveBrick = new _brick__WEBPACK_IMPORTED_MODULE_0__["default"](this.CANVAS_WIDTH, this.CANVAS_HEIGHT); // this.liveBrick.drawBrick(this.ctx);
-
+      this.liveBrick = new _brick__WEBPACK_IMPORTED_MODULE_0__["default"](this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
       new _control__WEBPACK_IMPORTED_MODULE_1__["default"](this.liveBrick);
-      setInterval(function () {
-        return _this.liveBrick.drawBrick(_this.ctx);
-      }, 1000); // this.liveBrick.drawBrick(this.ctx);
-
       this.gameLoop();
     }
   }]);
@@ -178,22 +184,32 @@ function () {
   function Brick(CANVAS_WIDTH, CANVAS_HEIGHT) {
     _classCallCheck(this, Brick);
 
+    this.POS_UP = [[0, 1, 0], [1, 1, 1], [0, 0, 0]];
     this.CANVAS_WIDTH = CANVAS_WIDTH;
     this.CANVAS_HEIGHT = CANVAS_HEIGHT;
     this.width = CANVAS_WIDTH / 10;
     this.height = CANVAS_HEIGHT / 20;
-    this.downSpeed = this.height / 20;
     this.position = {
       x: CANVAS_WIDTH / 2 - this.width,
       y: 0
     };
+    this.dropCounter = 0;
+    this.dropInterval = 1000;
   }
 
   _createClass(Brick, [{
     key: "drawBrick",
     value: function drawBrick(ctx) {
-      // ctx.clearRect(0, 0, this.CANVAS_WIDTH, this.CANVAS_HEIGHT);
-      ctx.fillRect(this.position.x, this.position.y, this.width, this.height); // this.position.y += this.height;
+      var _this = this;
+
+      this.POS_UP.forEach(function (row, y) {
+        row.forEach(function (col, x) {
+          if (col) {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(_this.position.x + _this.width * x, _this.position.y + _this.width * y, _this.width, _this.height);
+          }
+        });
+      });
     }
   }, {
     key: "moveLeft",
@@ -210,13 +226,19 @@ function () {
   }, {
     key: "moveDown",
     value: function moveDown() {
-      this.downSpeed += 5;
+      this.position.y += this.height;
+      this.dropCounter = 0;
     }
   }, {
     key: "update",
     value: function update(deltaTime) {
       if (!deltaTime) return;
-      this.position.y += this.downSpeed; // check for collission
+      this.dropCounter += deltaTime;
+
+      if (this.dropCounter > this.dropInterval) {
+        this.moveDown();
+      } // check for collission
+
 
       if (this.position.y + this.height > this.CANVAS_HEIGHT) {
         this.position.y = this.CANVAS_HEIGHT - this.height;
@@ -248,6 +270,8 @@ var Control = function Control(liveBrick) {
   _classCallCheck(this, Control);
 
   document.addEventListener("keydown", function (e) {
+    e.preventDefault();
+
     switch (e.keyCode) {
       case 37:
         liveBrick.moveLeft();
@@ -259,16 +283,6 @@ var Control = function Control(liveBrick) {
 
       case 40:
         liveBrick.moveDown();
-        break;
-
-      default:
-        break;
-    }
-  });
-  document.addEventListener("keyup", function (e) {
-    switch (e.keyCode) {
-      case 40:
-        // alert("key down")
         break;
 
       default:
