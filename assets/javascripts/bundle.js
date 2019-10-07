@@ -149,46 +149,7 @@ function () {
 
       ; // return this.scoreCount(rowCount);
 
-      switch (rowCount) {
-        case 1:
-          return 100;
-
-        case 2:
-          return 300;
-
-        case 3:
-          return 500;
-
-        case 4:
-          return 800;
-
-        default:
-          return 0;
-      }
-    }
-  }, {
-    key: "scoreCount",
-    value: function scoreCount(rowCount) {
-      var score = 0;
-
-      switch (rowCount) {
-        case 1:
-          this.score += 100;
-
-        case 2:
-          this.score += 300;
-
-        case 3:
-          this.score += 500;
-
-        case 4:
-          this.score += 800;
-
-        default:
-          return score;
-      }
-
-      ;
+      return rowCount;
     }
   }]);
 
@@ -443,7 +404,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Game =
 /*#__PURE__*/
 function () {
-  function Game() {
+  function Game(level) {
     var _this = this;
 
     _classCallCheck(this, Game);
@@ -452,12 +413,15 @@ function () {
     this.game = new _board__WEBPACK_IMPORTED_MODULE_1__["default"](10, 20); //default starting score
 
     this.score = 0;
+    this.lineCount = 0;
+    this.level = level;
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.scale(27, 27);
     this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
-    this.gameReset();
     this.displayScore();
+    this.displayLevel();
+    this.gameReset();
     this.gameLoop();
     this.dropCounter = 0;
     this.dropInterval = 1000;
@@ -479,6 +443,7 @@ function () {
         case 40:
           // move brick down by one space
           e.preventDefault();
+          var rows = 0;
           _control__WEBPACK_IMPORTED_MODULE_0__["softDrop"](_this.currentBrick);
 
           if (Object(_collission__WEBPACK_IMPORTED_MODULE_3__["default"])(_this.game.playArea, _this.currentBrick)) {
@@ -488,9 +453,13 @@ function () {
 
             _this.gameReset();
 
-            _this.score += _this.game.clearLine();
+            rows = _this.game.clearLine();
 
-            _this.displayScore();
+            _this.updateScore(rows);
+
+            _this.updateLineCount(rows);
+
+            _this.updateLevel();
           }
 
           _this.dropCounter = 0;
@@ -521,6 +490,7 @@ function () {
       var timestamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
       var deltatime = timestamp - this.lastTime;
       this.lastTime = timestamp;
+      var rows = 0;
       this.dropCounter += deltatime;
 
       if (this.dropCounter > this.dropInterval) {
@@ -530,8 +500,10 @@ function () {
           this.currentBrick.pos.y--;
           this.updateGameState();
           this.gameReset();
-          this.game.clearLine();
-          this.displayScore();
+          rows = this.game.clearLine();
+          this.updateScore(rows);
+          this.updateLineCount(rows);
+          this.updateLevel();
         }
 
         this.dropCounter = 0;
@@ -565,6 +537,16 @@ function () {
       document.getElementById('score').innerHTML = this.score;
     }
   }, {
+    key: "displayLineCount",
+    value: function displayLineCount() {
+      document.getElementById('line').innerHTML = this.lineCount;
+    }
+  }, {
+    key: "displayLevel",
+    value: function displayLevel() {
+      document.getElementById('level').innerHTML = this.level;
+    }
+  }, {
     key: "render",
     value: function render() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -573,6 +555,114 @@ function () {
         y: 0
       });
       this.currentBrick.drawBrick(this.ctx, this.currentBrick.brick, this.currentBrick.pos);
+    }
+  }, {
+    key: "updateScore",
+    value: function updateScore(rowCount) {
+      switch (rowCount) {
+        case 1:
+          this.score += 100;
+          break;
+
+        case 2:
+          this.score += 300;
+          break;
+
+        case 3:
+          this.score += 500;
+          break;
+
+        case 4:
+          this.score += 800;
+          break;
+
+        default:
+          break;
+      }
+
+      this.displayScore();
+    }
+  }, {
+    key: "updateLineCount",
+    value: function updateLineCount(rowCount) {
+      this.lineCount += rowCount;
+      this.displayLineCount();
+    }
+  }, {
+    key: "updateLevel",
+    value: function updateLevel() {
+      if (this.lineCount >= 90) {
+        this.level = 10;
+      } else if (this.lineCount >= 80) {
+        this.level = 9;
+      } else if (this.lineCount >= 70) {
+        this.level = 8;
+      } else if (this.lineCount >= 60) {
+        this.level = 7;
+      } else if (this.lineCount >= 50) {
+        this.level = 6;
+      } else if (this.lineCount >= 40) {
+        this.level = 5;
+      } else if (this.lineCount >= 30) {
+        this.level = 4;
+      } else if (this.lineCount >= 20) {
+        this.level = 3;
+      } else if (this.lineCount >= 10) {
+        this.level = 2;
+      } else {
+        this.level = 1;
+      }
+
+      this.updateSpeed();
+      this.displayLevel();
+    }
+  }, {
+    key: "updateSpeed",
+    value: function updateSpeed() {
+      switch (this.level) {
+        case 1:
+          this.dropInterval = 1000;
+          break;
+
+        case 2:
+          this.dropInterval = 900;
+          break;
+
+        case 3:
+          this.dropInterval = 800;
+          break;
+
+        case 4:
+          this.dropInterval = 700;
+          break;
+
+        case 5:
+          this.dropInterval = 600;
+          break;
+
+        case 6:
+          this.dropInterval = 500;
+          break;
+
+        case 7:
+          this.dropInterval = 400;
+          break;
+
+        case 8:
+          this.dropInterval = 300;
+          break;
+
+        case 9:
+          this.dropInterval = 200;
+          break;
+
+        case 10:
+          this.dropInterval = 100;
+          break;
+
+        default:
+          break;
+      }
     } // reset game
 
   }, {
@@ -585,6 +675,8 @@ function () {
           return row.fill(0);
         });
         this.score = 0;
+        this.lineCount = 0;
+        this.level = 0;
         this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
         this.displayScore();
       }
@@ -654,13 +746,29 @@ function (_React$Component) {
       }, "HOLD"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "hold-display"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tetris-info-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tetris-score-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "score-title"
       }, "SCORE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "score-display",
         id: "score"
-      })));
+      }, "0")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tetris-line-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "line-title"
+      }, "LINE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "line-display",
+        id: "line"
+      }, "0")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tetris-level-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "level-title"
+      }, "LEVEL"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "level-display",
+        id: "level"
+      }, "0"))));
     }
   }]);
 
@@ -963,7 +1071,8 @@ __webpack_require__.r(__webpack_exports__);
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.getElementById("root");
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_splash_page__WEBPACK_IMPORTED_MODULE_2__["default"], null), root);
-  var newGame = new _assets_javascripts_game__WEBPACK_IMPORTED_MODULE_3__["default"]();
+  var level = 1;
+  var newGame = new _assets_javascripts_game__WEBPACK_IMPORTED_MODULE_3__["default"](level);
 });
 
 /***/ }),

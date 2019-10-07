@@ -5,7 +5,7 @@
   margin-right: 10px;
   width: 200px;
   height: 540px;
-  border: 5px solid black;
+  /* border: 5px solid black; */
 }
 
 .tetris-hold-container, .tetris-score-container {
@@ -15,7 +15,7 @@
   width: 200px;
 }
 
-.tetris-hold-container > div, .tetris-score-container > div {
+.tetris-hold-container > div, .tetris-info-container > div {
   width: 184px;
   padding: 5px;
   display: flex;
@@ -25,39 +25,43 @@
 
 .tetris-hold-container {
   height: 25%;
-  border: 1px solid blue;
-  background-color: bisque;
+  /* border: 1px solid blue; */
+  /* background-color: bisque; */
 }
 
-.hold-title, .score-title {
+.hold-title, .score-title, .line-title, .level-title {
   font-size: 25px;
-}
-
-.hold-title {
-
 }
 
 .hold-display {
   height: 70%;
 }
 
-.hold-display, .score-display {
+.hold-display, .score-display, .line-display, .level-display {
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
   border: 3px solid orangered;
 }
 
-.tetris-score-container {
+.tetris-info-container {
   height: 50%;
-  border: 1px solid blue;
-  background-color: aqua
 }
 
-.score-title {
+.tetris-score-container,
+.tetris-line-container,
+.tetris-level-container {
+  display: flex;
+  justify-content: flex;
+  flex-direction: column;
+}
+
+.score-title, .line-title, .level-title {
   height: 15%;
 }
 
-.score-display {
+.score-display, .line-display, .level-display {
   height: 85%;
+  font-size: 25px;
 }

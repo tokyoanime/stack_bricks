@@ -31,34 +31,7 @@ export default class Board {
     };
 
     // return this.scoreCount(rowCount);
-    switch (rowCount) {
-      case 1:
-        return 100;
-      case 2:
-        return 300;
-      case 3:
-        return 500;
-      case 4:
-        return 800;
-      default:
-        return 0;
-    }
+    return rowCount;
   }
-
-  scoreCount(rowCount) {
-    let score = 0;
-    switch (rowCount) {
-      case 1:
-        this.score += 100;
-      case 2:
-        this.score += 300;
-      case 3:
-        this.score += 500;
-      case 4:
-        this.score += 800;
-      default:
-        return score;
-    };
-  };
     
 }

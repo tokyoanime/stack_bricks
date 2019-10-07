@@ -7,6 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const root = document.getElementById("root");
 
   ReactDOM.render(<SplashPage />, root);
-
-  const newGame = new Game();
+  const level = 1;
+  const newGame = new Game(level);
 });
