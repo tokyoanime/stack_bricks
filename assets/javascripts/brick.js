@@ -13,13 +13,13 @@ export default class Brick {
   constructor(playArea) {
     this.COLORS = [
       null,
-      '#d400db',
-      '#db8700',
-      '#0030db',
-      '#54db00',
-      '#db0016',
-      '#00dbeb',
-      '#dbdb00'
+      '#f700ff',
+      '#ff9d00',
+      '#0038ff',
+      '#62ff00',
+      '#ff001a',
+      '#00eeff',
+      '#ffff00'
     ];
 
     this.pos = {

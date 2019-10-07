@@ -1,5 +1,6 @@
 export default class Board {
-  constructor(width, height) {
+  constructor(width, height, ctx) {
+    this.ctx = ctx;
     this.playArea = this.createGrid(width, height);
   }
 
@@ -11,6 +12,22 @@ export default class Board {
     };
     return grid;
   };
+
+  drawGrid(ctx, w, h) {
+    const p = 1;
+    for (let i = 0; i < w + 1; i++) {
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i, h);
+    }
+
+    for (let j = 0; j < h + 1; j++) {
+      ctx.moveTo(0, j);
+      ctx.lineTo(w, j);
+    }
+    ctx.lineWidth = .01;
+    ctx.strokeStyle = '#780187';
+    ctx.stroke();
+  }
 
 // clear line once every square within a single row is filled
 // increase score based on number of row cleared

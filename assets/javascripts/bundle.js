@@ -105,9 +105,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var Board =
 /*#__PURE__*/
 function () {
-  function Board(width, height) {
+  function Board(width, height, ctx) {
     _classCallCheck(this, Board);
 
+    this.ctx = ctx;
     this.playArea = this.createGrid(width, height);
   } // Create an array of w x h and fill each element with 0 for game area
 
@@ -125,9 +126,28 @@ function () {
       return grid;
     }
   }, {
-    key: "clearLine",
-    // clear line once every square within a single row is filled
+    key: "drawGrid",
+    value: function drawGrid(ctx, w, h) {
+      var p = 1;
+
+      for (var i = 0; i < w + 1; i++) {
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, h);
+      }
+
+      for (var j = 0; j < h + 1; j++) {
+        ctx.moveTo(0, j);
+        ctx.lineTo(w, j);
+      }
+
+      ctx.lineWidth = .01;
+      ctx.strokeStyle = '#780187';
+      ctx.stroke();
+    } // clear line once every square within a single row is filled
     // increase score based on number of row cleared
+
+  }, {
+    key: "clearLine",
     value: function clearLine() {
       var rowCount = 0;
 
@@ -185,7 +205,7 @@ function () {
   function Brick(playArea) {
     _classCallCheck(this, Brick);
 
-    this.COLORS = [null, '#d400db', '#db8700', '#0030db', '#54db00', '#db0016', '#00dbeb', '#dbdb00'];
+    this.COLORS = [null, '#f700ff', '#ff9d00', '#0038ff', '#62ff00', '#ff001a', '#00eeff', '#ffff00'];
     this.pos = {
       x: 4,
       y: 0
@@ -418,6 +438,7 @@ function () {
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.scale(27, 27);
+    this.previewBricks = [];
     this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
     this.displayScore();
     this.displayLevel();
@@ -550,6 +571,7 @@ function () {
     key: "render",
     value: function render() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.game.drawGrid(this.ctx, 10, 20);
       this.currentBrick.drawBrick(this.ctx, this.game.playArea, {
         x: 0,
         y: 0

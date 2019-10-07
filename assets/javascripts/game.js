@@ -15,7 +15,9 @@ export default class Game {
 
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
-    this.ctx.scale(27, 27)
+
+    this.ctx.scale(27, 27);
+    this.previewBricks = [];
     this.currentBrick = new Brick(this.game.playArea);
 
     this.displayScore();
@@ -123,6 +125,7 @@ export default class Game {
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.game.drawGrid(this.ctx, 10, 20);
     this.currentBrick.drawBrick(this.ctx, this.game.playArea, {x: 0, y: 0});
     this.currentBrick.drawBrick(this.ctx, this.currentBrick.brick, this.currentBrick.pos);
   }
