@@ -2,8 +2,9 @@
   display: flex;
   justify-content: center;
   padding: 0px;
+  background-color: black;
 }
 
 canvas {
-  border: .2em solid #000000;
+  border: .2em solid red;
 }

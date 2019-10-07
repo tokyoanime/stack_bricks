@@ -5,7 +5,7 @@
   width: 200px;
   height: 540px;
   margin-left: 10px;
-  border: 5px solid black;
+  /* border: 5px solid black; */
 }
 
 .tetris-preview-container {
@@ -25,8 +25,8 @@
 
 .tetris-preview-container {
   height: 25%;
-  border: 1px solid blue;
-  background-color: bisque;
+  /* border: 1px solid blue; */
+  /* background-color: bisque; */
 }
 
 .preview-title, .score-title {
@@ -45,5 +45,5 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 3px solid orangered;
+  /* border: 3px solid orangered; */
 }

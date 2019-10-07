@@ -1,3 +1,19 @@
+body {
+  height: 100%;
+}
+
+.bg {
+  background-image: url('../images/bg_1.jpg');
+
+    /* Full height */
+  height: 100vh;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .main-container {
   display: flex;
   flex-direction: column;
@@ -7,7 +23,8 @@
   min-width: 800px;
   font-family: 'Orbitron', sans-serif;
   font-weight: bold;
-  background-color: aliceblue;
+  color: white;
+  /* background-color: aliceblue; */
 }
 
 .tetris-title-container {
@@ -17,7 +34,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center; 
-  background-color: beige;
+  /* background-color: beige; */
 }
 
 .tetris-title {
