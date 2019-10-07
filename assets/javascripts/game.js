@@ -28,12 +28,12 @@ export default class Game {
         case 37:
           // move brick left by one space
           e.preventDefault();
-          Control.move(-1);
+          Control.move(-1, this.currentBrick, this.game.playArea);
           break;
         case 39:
           // move brick right by one space
           e.preventDefault();
-          Control.move(1);
+          Control.move(1, this.currentBrick, this.game.playArea);
           break;
         case 40:
           // move brick down by one space
@@ -43,11 +43,11 @@ export default class Game {
           break;
         case 81:
           e.preventDefault();
-          Control.playerRotate(-1);
+          Control.playerRotate(-1, this.currentBrick, this.game.playArea);
           break;
         case 38:
           e.preventDefault();
-          Control.playerRotate(1);
+          Control.playerRotate(1, this.currentBrick, this.game.playArea);
           break;
         default:
           break;
@@ -72,6 +72,7 @@ export default class Game {
       this.updateGameState();
       this.currentBrick = new Brick(this.game.playArea);
       this.displayScore();
+      debugger;
     };
 
     this.render();
@@ -96,7 +97,8 @@ export default class Game {
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.currentBrick.drawBrick(this.ctx);
+    this.currentBrick.drawBrick(this.ctx, this.game.playArea, {x: 0, y: 0});
+    this.currentBrick.drawBrick(this.ctx, this.currentBrick.brick, this.currentBrick.pos);
   }
 
   // reset game

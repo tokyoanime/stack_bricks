@@ -253,10 +253,10 @@ function () {
   }, {
     key: "drawBrick",
     // draw brick based on brick's 2D array
-    value: function drawBrick(ctx, offset) {
+    value: function drawBrick(ctx, matrix, offset) {
       var _this = this;
 
-      this.brick.forEach(function (row, y) {
+      matrix.forEach(function (row, y) {
         row.forEach(function (col, x) {
           if (col) {
             ctx.fillStyle = _this.COLORS[col];
@@ -340,34 +340,37 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "softDrop", function() { return softDrop; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "move", function() { return move; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "playerRotate", function() { return playerRotate; });
-// drop brick by one unit
+/* harmony import */ var _collission__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./collission */ "./assets/javascripts/collission.js");
+ // drop brick by one unit
 // create a new random brick if collission detected vertically
+
 var softDrop = function softDrop(brick) {
   brick.pos.y++;
 }; // move brick based on direction
 // move brick back if collission is true so brick won't pass boundary or other bricks
 
-var move = function move(dir) {
-  player.pos.x += dir;
+var move = function move(dir, brick, playArea) {
+  brick.pos.x += dir;
 
-  if (collission(playArea, player)) {
-    player.pos.x -= dir;
+  if (Object(_collission__WEBPACK_IMPORTED_MODULE_0__["default"])(playArea, brick)) {
+    brick.pos.x -= dir;
   }
 }; // rotate piece
 
-var playerRotate = function playerRotate(dir) {
-  var pos = player.pos.x;
+var playerRotate = function playerRotate(dir, brick, playArea) {
+  var pos = brick.pos.x;
   var offset = 1;
-  rotateBrick(player.brick, dir); // check for sidewall collision
+  rotateBrick(brick.brick, dir); // check for sidewall collision
   // if part of the brick is over the wall after initial rotation,
   // check for collision with offset value until it is clear. 
 
-  while (collission(playArea, player)) {
-    player.pos.x += offset;
+  while (Object(_collission__WEBPACK_IMPORTED_MODULE_0__["default"])(playArea, brick)) {
+    brick.pos.x += offset;
     offset = -(offset + (offset > 0 ? 1 : -1));
 
-    if (offset > player.brick[0].length) {
-      player.pos.x = pos;
+    if (offset > brick.brick[0].length) {
+      rotateBrick(brick.brick, -dir);
+      brick.pos.x = pos;
       return;
     }
   }
@@ -447,13 +450,13 @@ function () {
         case 37:
           // move brick left by one space
           e.preventDefault();
-          _control__WEBPACK_IMPORTED_MODULE_0__["move"](-1);
+          _control__WEBPACK_IMPORTED_MODULE_0__["move"](-1, _this.currentBrick, _this.game.playArea);
           break;
 
         case 39:
           // move brick right by one space
           e.preventDefault();
-          _control__WEBPACK_IMPORTED_MODULE_0__["move"](1);
+          _control__WEBPACK_IMPORTED_MODULE_0__["move"](1, _this.currentBrick, _this.game.playArea);
           break;
 
         case 40:
@@ -465,12 +468,12 @@ function () {
 
         case 81:
           e.preventDefault();
-          _control__WEBPACK_IMPORTED_MODULE_0__["playerRotate"](-1);
+          _control__WEBPACK_IMPORTED_MODULE_0__["playerRotate"](-1, _this.currentBrick, _this.game.playArea);
           break;
 
         case 38:
           e.preventDefault();
-          _control__WEBPACK_IMPORTED_MODULE_0__["playerRotate"](1);
+          _control__WEBPACK_IMPORTED_MODULE_0__["playerRotate"](1, _this.currentBrick, _this.game.playArea);
           break;
 
         default:
@@ -503,6 +506,7 @@ function () {
         this.updateGameState();
         this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
         this.displayScore();
+        debugger;
       }
 
       ;
@@ -535,7 +539,11 @@ function () {
     key: "render",
     value: function render() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.currentBrick.drawBrick(this.ctx);
+      this.currentBrick.drawBrick(this.ctx, this.game.playArea, {
+        x: 0,
+        y: 0
+      });
+      this.currentBrick.drawBrick(this.ctx, this.currentBrick.brick, this.currentBrick.pos);
     } // reset game
 
   }, {
