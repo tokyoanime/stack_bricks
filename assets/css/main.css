@@ -23,7 +23,7 @@ body {
   min-width: 800px;
   font-family: 'Orbitron', sans-serif;
   font-weight: bold;
-  color: white;
+  color: #FFFAFA;
   /* background-color: aliceblue; */
 }
 
@@ -41,6 +41,7 @@ body {
   height: auto;
   font-size: 40px;
   text-transform: uppercase;
+  text-shadow: 1px 1px 10px #fff, 1px 1px 10px #fff;
 }
 
 .tetris-title-nav {
@@ -60,7 +61,7 @@ body {
 }
 
 .tetris-title-nav > div:hover {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid white;
 }
 
 .tetris-canvas-container {

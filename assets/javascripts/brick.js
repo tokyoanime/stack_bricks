@@ -59,12 +59,14 @@ export default class Brick {
     matrix.forEach((row, y) => {
       row.forEach((col, x) => {
         if (col) {
-          ctx.fillStyle = this.COLORS[col];
+          ctx.beginPath();
+          ctx.fillStyle = this.COLORS[col]
           ctx.fillRect(
             x + pos.x,
             y + pos.y,
             .9, .9
           );
+          ctx.fill();
         }
       });
     });

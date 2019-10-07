@@ -5,8 +5,8 @@ import Game from '../assets/javascripts/game';
 
 document.addEventListener("DOMContentLoaded", () => {
   const root = document.getElementById("root");
-
   ReactDOM.render(<SplashPage />, root);
+  
   const level = 1;
   const newGame = new Game(level);
 });

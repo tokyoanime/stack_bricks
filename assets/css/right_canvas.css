@@ -24,9 +24,21 @@
 }
 
 .tetris-preview-container {
-  height: 25%;
-  /* border: 1px solid blue; */
-  /* background-color: bisque; */
+  /* height: 25%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.brick-preview-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.brick-preview-container > div {
+  /* border: 1px solid white; */
 }
 
 .preview-title, .score-title {

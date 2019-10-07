@@ -2,27 +2,34 @@ import * as Control from './control';
 import Board from './board';
 import Brick from './brick';
 import collission from './collission';
+import renderPreview from './preview';
 
 export default class Game {
   constructor(level) {
     // create a 2D array of 10 x 20
     this.game = new Board(10, 20);
 
-    //default starting score
     this.score = 0;
     this.lineCount = 0;
     this.level = level;
+    this.isPaused = false;
 
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
 
     this.ctx.scale(27, 27);
     this.previewBricks = [];
-    this.currentBrick = new Brick(this.game.playArea);
 
+    for (let i = 0; i < 4; i++) {
+      this.previewBricks.push(new Brick(this.game.playArea));
+    }
+
+    this.currentBrick = new Brick(this.game.playArea);
+    this.gameReset = this.gameReset.bind(this);
+
+    renderPreview(this.previewBricks);
     this.displayScore();
     this.displayLevel();
-    this.gameReset();
     this.gameLoop();
 
     this.dropCounter = 0;
@@ -31,6 +38,17 @@ export default class Game {
 
     document.addEventListener('keydown', e => {
       switch (e.keyCode) {
+        case 27:
+          e.preventDefault();
+          if (this.isPaused) {
+            this.isPaused = false;
+            document.getElementById('gamePaused').style.display = 'none';
+            this.gameLoop();
+          } else {
+            document.getElementById('gamePaused').style.display = 'flex';
+            this.isPaused = true;
+          }
+          break;
         case 37:
           // move brick left by one space
           e.preventDefault();
@@ -93,7 +111,11 @@ export default class Game {
     };
 
     this.render();
-    requestAnimationFrame(this.gameLoop.bind(this));
+    const requestAnimation = requestAnimationFrame(this.gameLoop.bind(this));
+    if (this.isPaused) {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      cancelAnimationFrame(requestAnimation);
+    }
   };
 
   // record current position of the active brick in playArea
@@ -115,15 +137,18 @@ export default class Game {
     document.getElementById('score').innerHTML = this.score;
   }
 
+  // display # of line clear in browser
   displayLineCount() {
     document.getElementById('line').innerHTML = this.lineCount;
   }
 
+  // display current level in browser
   displayLevel() {
     document.getElementById('level').innerHTML = this.level;
   }
 
   render() {
+    // renderPreview(this.previewBricks);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.game.drawGrid(this.ctx, 10, 20);
     this.currentBrick.drawBrick(this.ctx, this.game.playArea, {x: 0, y: 0});
@@ -220,13 +245,22 @@ export default class Game {
 
   // reset game
   gameReset() {
-    this.currentBrick = new Brick(this.game.playArea);
+    this.currentBrick = this.previewBricks.shift();
+    this.previewBricks.push(new Brick(this.game.playArea));
+    renderPreview(this.previewBricks);
+    
     if (collission(this.game.playArea, this.currentBrick)) {
       this.game.playArea.forEach(row => row.fill(0));
       this.score = 0;
       this.lineCount = 0;
       this.level = 0;
+      this.previewBricks = [];
+
+      for (let i = 0; i < 4; i++) {
+        this.previewBricks.push(new Brick(this.game.playArea));
+      }
       this.currentBrick = new Brick(this.game.playArea);
+      renderPreview(this.previewBricks);
       this.displayScore();
     };
   };

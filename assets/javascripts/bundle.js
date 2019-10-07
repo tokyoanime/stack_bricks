@@ -256,8 +256,10 @@ function () {
       matrix.forEach(function (row, y) {
         row.forEach(function (col, x) {
           if (col) {
+            ctx.beginPath();
             ctx.fillStyle = _this.COLORS[col];
             ctx.fillRect(x + pos.x, y + pos.y, .9, .9);
+            ctx.fill();
           }
         });
       });
@@ -288,8 +290,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "iBrick", function() { return iBrick; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "oBrick", function() { return oBrick; });
 var tBrick = [[0, 1, 0], [1, 1, 1], [0, 0, 0]];
-var lBrick = [[0, 2, 0], [0, 2, 0], [0, 2, 2]];
-var jBrick = [[0, 3, 0], [0, 3, 0], [3, 3, 0]];
+var lBrick = [[0, 0, 2], [2, 2, 2], [0, 0, 0]];
+var jBrick = [[3, 0, 0], [3, 3, 3], [0, 0, 0]];
 var sBrick = [[0, 4, 4], [4, 4, 0], [0, 0, 0]];
 var zBrick = [[5, 5, 0], [0, 5, 5], [0, 0, 0]];
 var iBrick = [[0, 6, 0, 0], [0, 6, 0, 0], [0, 6, 0, 0], [0, 6, 0, 0]];
@@ -410,11 +412,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _board__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./board */ "./assets/javascripts/board.js");
 /* harmony import */ var _brick__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./brick */ "./assets/javascripts/brick.js");
 /* harmony import */ var _collission__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./collission */ "./assets/javascripts/collission.js");
+/* harmony import */ var _preview__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./preview */ "./assets/javascripts/preview.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -430,25 +434,46 @@ function () {
     _classCallCheck(this, Game);
 
     // create a 2D array of 10 x 20
-    this.game = new _board__WEBPACK_IMPORTED_MODULE_1__["default"](10, 20); //default starting score
-
+    this.game = new _board__WEBPACK_IMPORTED_MODULE_1__["default"](10, 20);
     this.score = 0;
     this.lineCount = 0;
     this.level = level;
+    this.isPaused = false;
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.scale(27, 27);
     this.previewBricks = [];
+
+    for (var i = 0; i < 4; i++) {
+      this.previewBricks.push(new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea));
+    }
+
     this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
+    this.gameReset = this.gameReset.bind(this);
+    Object(_preview__WEBPACK_IMPORTED_MODULE_4__["default"])(this.previewBricks);
     this.displayScore();
     this.displayLevel();
-    this.gameReset();
     this.gameLoop();
     this.dropCounter = 0;
     this.dropInterval = 1000;
     this.lastTime = 0;
     document.addEventListener('keydown', function (e) {
       switch (e.keyCode) {
+        case 27:
+          e.preventDefault();
+
+          if (_this.isPaused) {
+            _this.isPaused = false;
+            document.getElementById('gamePaused').style.display = 'none';
+
+            _this.gameLoop();
+          } else {
+            document.getElementById('gamePaused').style.display = 'flex';
+            _this.isPaused = true;
+          }
+
+          break;
+
         case 37:
           // move brick left by one space
           e.preventDefault();
@@ -532,7 +557,12 @@ function () {
 
       ;
       this.render();
-      requestAnimationFrame(this.gameLoop.bind(this));
+      var requestAnimation = requestAnimationFrame(this.gameLoop.bind(this));
+
+      if (this.isPaused) {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        cancelAnimationFrame(requestAnimation);
+      }
     }
   }, {
     key: "updateGameState",
@@ -556,12 +586,14 @@ function () {
     // display current score in browser
     value: function displayScore() {
       document.getElementById('score').innerHTML = this.score;
-    }
+    } // display # of line clear in browser
+
   }, {
     key: "displayLineCount",
     value: function displayLineCount() {
       document.getElementById('line').innerHTML = this.lineCount;
-    }
+    } // display current level in browser
+
   }, {
     key: "displayLevel",
     value: function displayLevel() {
@@ -570,6 +602,7 @@ function () {
   }, {
     key: "render",
     value: function render() {
+      // renderPreview(this.previewBricks);
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.game.drawGrid(this.ctx, 10, 20);
       this.currentBrick.drawBrick(this.ctx, this.game.playArea, {
@@ -690,7 +723,9 @@ function () {
   }, {
     key: "gameReset",
     value: function gameReset() {
-      this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
+      this.currentBrick = this.previewBricks.shift();
+      this.previewBricks.push(new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea));
+      Object(_preview__WEBPACK_IMPORTED_MODULE_4__["default"])(this.previewBricks);
 
       if (Object(_collission__WEBPACK_IMPORTED_MODULE_3__["default"])(this.game.playArea, this.currentBrick)) {
         this.game.playArea.forEach(function (row) {
@@ -699,7 +734,14 @@ function () {
         this.score = 0;
         this.lineCount = 0;
         this.level = 0;
+        this.previewBricks = [];
+
+        for (var i = 0; i < 4; i++) {
+          this.previewBricks.push(new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea));
+        }
+
         this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
+        Object(_preview__WEBPACK_IMPORTED_MODULE_4__["default"])(this.previewBricks);
         this.displayScore();
       }
 
@@ -711,6 +753,37 @@ function () {
 }();
 
 
+
+/***/ }),
+
+/***/ "./assets/javascripts/preview.js":
+/*!***************************************!*\
+  !*** ./assets/javascripts/preview.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+var previewIds = ['fPreview', 'sPreview', 'tPreview', 'lPreview'];
+
+var renderPreview = function renderPreview(previewBricks) {
+  // debugger;
+  previewBricks.forEach(function (brick, i) {
+    var cvs = document.getElementById(previewIds[i]);
+    var context = cvs.getContext('2d');
+    context.save();
+    context.scale(20, 20);
+    context.clearRect(0, 0, cvs.width, cvs.height);
+    brick.drawBrick(context, brick.brick, {
+      x: 0,
+      y: 0
+    });
+    context.restore();
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (renderPreview);
 
 /***/ }),
 
@@ -852,7 +925,9 @@ function (_React$Component) {
         id: "tetris",
         width: "270",
         height: "540"
-      }));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "gamePaused"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "PAUSED")));
     }
   }]);
 
@@ -914,7 +989,33 @@ function (_React$Component) {
         className: "tetris-preview-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "preview-title"
-      }, "Preview")));
+      }, "Preview"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "brick-preview-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "fPreview"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
+        id: "fPreview",
+        width: "75",
+        height: "75"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "sPreview"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
+        id: "sPreview",
+        width: "75",
+        height: "75"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tPreview"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
+        id: "tPreview",
+        width: "75",
+        height: "75"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "lPreview"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("canvas", {
+        id: "lPreview",
+        width: "75",
+        height: "75"
+      })))));
     }
   }]);
 
