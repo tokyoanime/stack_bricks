@@ -20,7 +20,7 @@ class LeftCanvas extends React.Component {
           <div className="score-title">
             SCORE
           </div>
-          <div className="score-display">
+          <div className="score-display" id="score">
             
           </div>
         </div>

@@ -8,11 +8,6 @@ const modal = document.getElementById("modalContent");
 
 // When the user clicks the button, open the modal 
 modal.onclick = (event) => {
-  // if (event.currentTarget.className === "about") {
-  //   modalAbout.style.display = "block";
-  // }
-  debugger;
-
   switch (event.currentTarget.className) {
     case "about":
       modalAbout.style.display = "block";
@@ -24,10 +19,6 @@ modal.onclick = (event) => {
       break;
   }
 }
-
-// modal.onclick = () => {
-//   modalControl.style.display = "block";
-// }
 
 const close = document.getElementsByClassName("close")[0];
 close.onclick = () => {

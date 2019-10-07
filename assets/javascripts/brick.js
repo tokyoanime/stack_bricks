@@ -1,67 +1,73 @@
-class Brick {
 
-  constructor(CANVAS_WIDTH, CANVAS_HEIGHT) {
-    this.POS_UP = [
-      [0, 1, 0],
-      [1, 1, 1],
-      [0, 0, 0]
+import {
+  tBrick,
+  lBrick,
+  jBrick,
+  sBrick,
+  zBrick,
+  iBrick,
+  oBrick,
+} from './brick_types';
+
+export default class Brick {
+  constructor(playArea) {
+    this.COLORS = [
+      null,
+      '#d400db',
+      '#db8700',
+      '#0030db',
+      '#54db00',
+      '#db0016',
+      '#00dbeb',
+      '#dbdb00'
     ];
 
-    this.CANVAS_WIDTH = CANVAS_WIDTH;
-    this.CANVAS_HEIGHT = CANVAS_HEIGHT;
-
-    this.width = CANVAS_WIDTH / 10;
-    this.height = CANVAS_HEIGHT / 20;
-
-    this.position = {
-      x: CANVAS_WIDTH / 2 - this.width,
+    this.pos = {
+      x: 4,
       y: 0
-    }
+    };
 
-    this.dropCounter = 0;
-    this.dropInterval = 1000;
+    const BRICKS = 'ILJOTSZ';
+    this.brick = this.createBrick(BRICKS[Math.floor(Math.random() * BRICKS.length)]);
   }
 
-  drawBrick(ctx) {
-    this.POS_UP.forEach((row, y) => {
+  // return 2D array based on type
+  createBrick(type) {
+    switch (type) {
+      case "T":
+        return tBrick;
+      case "L":
+        return lBrick;
+      case "J":
+        return jBrick;
+      case "S":
+        return sBrick;
+      case "Z":
+        return zBrick;
+      case "I":
+        // this piece has a problem with right bound rotation
+        return iBrick;
+      case "O":
+        return oBrick;
+      default:
+        break;
+    };
+  };
+
+  // draw brick based on brick's 2D array
+  drawBrick(ctx, offset) {
+    this.brick.forEach((row, y) => {
       row.forEach((col, x) => {
         if (col) {
-          ctx.fillStyle = 'black';
-          ctx.fillRect(this.position.x + (this.width * x), this.position.y + (this.width * y), this.width, this.height)
+          ctx.fillStyle = this.COLORS[col];
+          ctx.fillRect(
+            x + this.pos.x,
+            y + this.pos.y,
+            .9, .9
+          );
         }
-      })
-    })
-  }
+      });
+    });
+  };
 
-  moveLeft() {
-    this.position.x -= this.CANVAS_WIDTH / 10;
-    if (this.position.x < 0) this.position.x = 0;
-  }
-
-  moveRight() {
-    this.position.x += this.CANVAS_WIDTH / 10;
-    if ((this.position.x + this.width) > this.CANVAS_WIDTH) this.position.x = this.CANVAS_WIDTH - this.width;
-  }
-
-  moveDown() {
-    this.position.y += this.height;
-    this.dropCounter = 0;
-  }
-
-  update(deltaTime) {
-    if (!deltaTime) return;
-
-    this.dropCounter += deltaTime;
-    if (this.dropCounter > this.dropInterval) {
-      this.moveDown();
-    }
-
-    // check for collission
-    if ((this.position.y + this.height) > this.CANVAS_HEIGHT) {
-      this.position.y = this.CANVAS_HEIGHT - this.height;
-      this.downSpeed = 0;
-    }
-  }
 }
-
-export default Brick;
