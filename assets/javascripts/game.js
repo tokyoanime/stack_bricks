@@ -10,13 +10,14 @@ export default class Game {
 
     //default starting score
     this.score = 0;
-    this.displayScore();
 
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.scale(27, 27)
     this.currentBrick = new Brick(this.game.playArea);
 
+    this.gameReset();
+    this.displayScore();
     this.gameLoop();
 
     this.dropCounter = 0;
@@ -39,6 +40,13 @@ export default class Game {
           // move brick down by one space
           e.preventDefault();
           Control.softDrop(this.currentBrick);
+          if (collission(this.game.playArea, this.currentBrick)) {
+            this.currentBrick.pos.y--;
+            this.updateGameState();
+            this.gameReset();
+            this.score += this.game.clearLine();
+            this.displayScore();
+          }
           this.dropCounter = 0;
           break;
         case 81:
@@ -53,7 +61,6 @@ export default class Game {
           break;
       };
     });
-
   }
 
   // loop function
@@ -64,15 +71,15 @@ export default class Game {
     this.dropCounter += deltatime;
     if (this.dropCounter > this.dropInterval) {
       Control.softDrop(this.currentBrick);
+      if (collission(this.game.playArea, this.currentBrick)) {
+        this.currentBrick.pos.y--;
+        this.updateGameState();
+        this.gameReset();
+        this.game.clearLine();
+        this.displayScore();
+      }
+
       this.dropCounter = 0;
-    };
-    if (collission(this.game.playArea, this.currentBrick)) {
-      this.currentBrick.pos.y--;
-      this.score += this.game.clearLine();
-      this.updateGameState();
-      this.currentBrick = new Brick(this.game.playArea);
-      this.displayScore();
-      debugger;
     };
 
     this.render();
@@ -81,13 +88,16 @@ export default class Game {
 
   // record current position of the active brick in playArea
   updateGameState() {
-    this.currentBrick.brick.forEach((row, y) => {
+    const brick = this.currentBrick;
+    const playArea = this.game.playArea;
+    brick.brick.forEach((row, y) => {
       row.forEach((col, x) => {
         if (col) {
-          this.game.playArea[y + this.currentBrick.pos.y][x + this.currentBrick.pos.x] = col;
+          playArea[y + brick.pos.y][x + brick.pos.x] = col;
         };
       });
     });
+    this.game.playArea = playArea;
   };
 
   // display current score in browser
@@ -103,7 +113,8 @@ export default class Game {
 
   // reset game
   gameReset() {
-    if (collission(this.game.playArea, this.currentBrick.pos)) {
+    this.currentBrick = new Brick(this.game.playArea);
+    if (collission(this.game.playArea, this.currentBrick)) {
       this.game.playArea.forEach(row => row.fill(0));
       this.score = 0;
       this.currentBrick = new Brick(this.game.playArea);

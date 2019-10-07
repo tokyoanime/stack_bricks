@@ -55,14 +55,14 @@ export default class Brick {
   };
 
   // draw brick based on brick's 2D array
-  drawBrick(ctx, matrix, offset) {
+  drawBrick(ctx, matrix, pos) {
     matrix.forEach((row, y) => {
       row.forEach((col, x) => {
         if (col) {
           ctx.fillStyle = this.COLORS[col];
           ctx.fillRect(
-            x + this.pos.x,
-            y + this.pos.y,
+            x + pos.x,
+            y + pos.y,
             .9, .9
           );
         }

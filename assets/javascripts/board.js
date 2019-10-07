@@ -30,7 +30,19 @@ export default class Board {
       rowCount++;
     };
 
-    return this.scoreCount(rowCount);
+    // return this.scoreCount(rowCount);
+    switch (rowCount) {
+      case 1:
+        return 100;
+      case 2:
+        return 300;
+      case 3:
+        return 500;
+      case 4:
+        return 800;
+      default:
+        return 0;
+    }
   }
 
   scoreCount(rowCount) {

@@ -147,8 +147,24 @@ function () {
         rowCount++;
       }
 
-      ;
-      return this.scoreCount(rowCount);
+      ; // return this.scoreCount(rowCount);
+
+      switch (rowCount) {
+        case 1:
+          return 100;
+
+        case 2:
+          return 300;
+
+        case 3:
+          return 500;
+
+        case 4:
+          return 800;
+
+        default:
+          return 0;
+      }
     }
   }, {
     key: "scoreCount",
@@ -253,14 +269,14 @@ function () {
   }, {
     key: "drawBrick",
     // draw brick based on brick's 2D array
-    value: function drawBrick(ctx, matrix, offset) {
+    value: function drawBrick(ctx, matrix, pos) {
       var _this = this;
 
       matrix.forEach(function (row, y) {
         row.forEach(function (col, x) {
           if (col) {
             ctx.fillStyle = _this.COLORS[col];
-            ctx.fillRect(x + _this.pos.x, y + _this.pos.y, .9, .9);
+            ctx.fillRect(x + pos.x, y + pos.y, .9, .9);
           }
         });
       });
@@ -436,11 +452,12 @@ function () {
     this.game = new _board__WEBPACK_IMPORTED_MODULE_1__["default"](10, 20); //default starting score
 
     this.score = 0;
-    this.displayScore();
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.scale(27, 27);
     this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
+    this.gameReset();
+    this.displayScore();
     this.gameLoop();
     this.dropCounter = 0;
     this.dropInterval = 1000;
@@ -463,6 +480,19 @@ function () {
           // move brick down by one space
           e.preventDefault();
           _control__WEBPACK_IMPORTED_MODULE_0__["softDrop"](_this.currentBrick);
+
+          if (Object(_collission__WEBPACK_IMPORTED_MODULE_3__["default"])(_this.game.playArea, _this.currentBrick)) {
+            _this.currentBrick.pos.y--;
+
+            _this.updateGameState();
+
+            _this.gameReset();
+
+            _this.score += _this.game.clearLine();
+
+            _this.displayScore();
+          }
+
           _this.dropCounter = 0;
           break;
 
@@ -495,18 +525,16 @@ function () {
 
       if (this.dropCounter > this.dropInterval) {
         _control__WEBPACK_IMPORTED_MODULE_0__["softDrop"](this.currentBrick);
+
+        if (Object(_collission__WEBPACK_IMPORTED_MODULE_3__["default"])(this.game.playArea, this.currentBrick)) {
+          this.currentBrick.pos.y--;
+          this.updateGameState();
+          this.gameReset();
+          this.game.clearLine();
+          this.displayScore();
+        }
+
         this.dropCounter = 0;
-      }
-
-      ;
-
-      if (Object(_collission__WEBPACK_IMPORTED_MODULE_3__["default"])(this.game.playArea, this.currentBrick)) {
-        this.currentBrick.pos.y--;
-        this.score += this.game.clearLine();
-        this.updateGameState();
-        this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
-        this.displayScore();
-        debugger;
       }
 
       ;
@@ -517,17 +545,18 @@ function () {
     key: "updateGameState",
     // record current position of the active brick in playArea
     value: function updateGameState() {
-      var _this2 = this;
-
-      this.currentBrick.brick.forEach(function (row, y) {
+      var brick = this.currentBrick;
+      var playArea = this.game.playArea;
+      brick.brick.forEach(function (row, y) {
         row.forEach(function (col, x) {
           if (col) {
-            _this2.game.playArea[y + _this2.currentBrick.pos.y][x + _this2.currentBrick.pos.x] = col;
+            playArea[y + brick.pos.y][x + brick.pos.x] = col;
           }
 
           ;
         });
       });
+      this.game.playArea = playArea;
     }
   }, {
     key: "displayScore",
@@ -549,7 +578,9 @@ function () {
   }, {
     key: "gameReset",
     value: function gameReset() {
-      if (Object(_collission__WEBPACK_IMPORTED_MODULE_3__["default"])(this.game.playArea, this.currentBrick.pos)) {
+      this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
+
+      if (Object(_collission__WEBPACK_IMPORTED_MODULE_3__["default"])(this.game.playArea, this.currentBrick)) {
         this.game.playArea.forEach(function (row) {
           return row.fill(0);
         });
