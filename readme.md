@@ -2,7 +2,7 @@
 
 ## About
 
-Stack Bricks is a JavaScript game inspired from the classic game Tetris.
+Stack Bricks is a JavaScript game inspired by the classic game Tetris.
 
 [Play Here](https://tokyoanime.github.io/stack_bricks/)
 
