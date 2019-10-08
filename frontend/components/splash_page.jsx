@@ -32,7 +32,10 @@ class SplashPage extends React.Component {
             <div className="control" id="modalContent" onClick={(e) => this.handleModal(e, "myModalControl")}>
               Control
             </div>
+            <div className="gitHub"><a href="https://github.com/tokyoanime/stack_bricks" target="_blank">GitHub</a></div>
+            <div className="linkedIn"><a href="https://www.linkedin.com/in/lwin-ye-797a2558/" target="_blank">LinkedIn</a></div>
           </div>
+
         </div>
         <div className="tetris-canvas-container">
           {<LeftCanvas />}
@@ -47,7 +50,7 @@ class SplashPage extends React.Component {
               About
           </div>
             <div className="modal-body">
-              Stack Bricks is a clone of a popular classic Tetris game.
+              Stack Bricks is a JavaScript game inspired from a classic game Tetris.
           </div>
           </div>
         </div>
@@ -56,10 +59,10 @@ class SplashPage extends React.Component {
             <div className="modal-header">
               <span className="close" onClick={(e) => this.closeModal(e, "myModalControl")}>&times;</span>
               Keyboard Control
-          </div>
-            <div className="modal-body">
-              Body
-          </div>
+            </div>
+            <div className="modal-body keyboard-control">
+              
+            </div>
           </div>
         </div>
         <div id="myModalGamePlayInfo" className="modal">

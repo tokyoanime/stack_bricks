@@ -835,12 +835,6 @@ function (_React$Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tetris-canvas-left"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "tetris-hold-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "hold-title"
-      }, "HOLD"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "hold-display"
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tetris-info-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tetris-score-container"
@@ -1117,7 +1111,17 @@ function (_React$Component) {
         onClick: function onClick(e) {
           return _this.handleModal(e, "myModalControl");
         }
-      }, "Control"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Control"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "gitHub"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "https://github.com/tokyoanime/stack_bricks",
+        target: "_blank"
+      }, "GitHub")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "linkedIn"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        href: "https://www.linkedin.com/in/lwin-ye-797a2558/",
+        target: "_blank"
+      }, "LinkedIn")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tetris-canvas-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_left_canvas__WEBPACK_IMPORTED_MODULE_1__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_middle_canvas__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_right_canvas__WEBPACK_IMPORTED_MODULE_3__["default"], null)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "myModalAbout",
@@ -1133,7 +1137,7 @@ function (_React$Component) {
         }
       }, "\xD7"), "About"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-body"
-      }, "Stack Bricks is a clone of a popular classic Tetris game."))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Stack Bricks is a JavaScript game inspired from a classic game Tetris."))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "myModalControl",
         className: "modal"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1146,8 +1150,8 @@ function (_React$Component) {
           return _this.closeModal(e, "myModalControl");
         }
       }, "\xD7"), "Keyboard Control"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "modal-body"
-      }, "Body"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal-body keyboard-control"
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "myModalGamePlayInfo",
         className: "modal"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

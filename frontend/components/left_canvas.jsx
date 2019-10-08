@@ -8,14 +8,14 @@ class LeftCanvas extends React.Component {
   render() {
     return(
       <div className="tetris-canvas-left">
-        <div className="tetris-hold-container">
+        {/* <div className="tetris-hold-container">
           <div className="hold-title">
             HOLD
           </div>
           <div className="hold-display">
             
           </div>
-        </div>
+        </div> */}
         <div className="tetris-info-container">
           <div className="tetris-score-container">
             <div className="score-title">
