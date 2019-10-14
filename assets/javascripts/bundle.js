@@ -436,9 +436,11 @@ function () {
     // create a 2D array of 10 x 20
     this.game = new _board__WEBPACK_IMPORTED_MODULE_1__["default"](10, 20);
     this.score = 0;
+    this.highScores = [15000, 12000, 10000, 5000, 1000];
     this.lineCount = 0;
     this.level = level;
     this.isPaused = false;
+    this.gameOver = false;
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
     this.ctx.scale(27, 27);
@@ -559,7 +561,7 @@ function () {
       this.render();
       var requestAnimation = requestAnimationFrame(this.gameLoop.bind(this));
 
-      if (this.isPaused) {
+      if (this.isPaused || this.gameOver) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         cancelAnimationFrame(requestAnimation);
       }
@@ -731,18 +733,17 @@ function () {
         this.game.playArea.forEach(function (row) {
           return row.fill(0);
         });
-        this.score = 0;
-        this.lineCount = 0;
-        this.level = 0;
         this.previewBricks = [];
-
-        for (var i = 0; i < 4; i++) {
-          this.previewBricks.push(new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea));
-        }
-
-        this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
-        Object(_preview__WEBPACK_IMPORTED_MODULE_4__["default"])(this.previewBricks);
-        this.displayScore();
+        this.gameOver = true;
+        document.getElementById('game-over').style.display = 'block'; // this.score = 0;
+        // this.lineCount = 0;
+        // this.level = 0;
+        // for (let i = 0; i < 4; i++) {
+        //   this.previewBricks.push(new Brick(this.game.playArea));
+        // }
+        // this.currentBrick = new Brick(this.game.playArea);
+        // renderPreview(this.previewBricks);
+        // this.displayScore();
       }
 
       ;
@@ -879,6 +880,7 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _assets_javascripts_game__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../assets/javascripts/game */ "./assets/javascripts/game.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -899,6 +901,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var MiddleCanvas =
 /*#__PURE__*/
 function (_React$Component) {
@@ -911,6 +914,13 @@ function (_React$Component) {
   }
 
   _createClass(MiddleCanvas, [{
+    key: "startGame",
+    value: function startGame() {
+      document.getElementById('start-game').style.display = 'none';
+      var level = 1;
+      var game = new _assets_javascripts_game__WEBPACK_IMPORTED_MODULE_1__["default"](level);
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -921,7 +931,12 @@ function (_React$Component) {
         height: "540"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         id: "gamePaused"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "PAUSED")));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "PAUSED")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "start-game",
+        onClick: this.startGame
+      }, "START"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "game-over"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "GAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "OVER")));
     }
   }]);
 
@@ -1190,16 +1205,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_splash_page__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/splash_page */ "./frontend/components/splash_page.jsx");
-/* harmony import */ var _assets_javascripts_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../assets/javascripts/game */ "./assets/javascripts/game.js");
-
 
 
 
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.getElementById("root");
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_splash_page__WEBPACK_IMPORTED_MODULE_2__["default"], null), root);
-  var level = 1;
-  var newGame = new _assets_javascripts_game__WEBPACK_IMPORTED_MODULE_3__["default"](level);
 });
 
 /***/ }),

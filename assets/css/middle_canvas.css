@@ -17,7 +17,6 @@ canvas {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  /* display: none; */
   z-index: 1;
   position: absolute;
   font-size: 50px;
@@ -25,7 +24,41 @@ canvas {
   width: 270px;
   color: whitesmoke;
 }
-/* 
-.gamePaused {
+
+#start-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+  position: fixed;
+  font-size: 50px;
+  opacity: 1;
+  color: whitesmoke;
+  border: 5px solid white;
+  padding: 10px;
+  background: none;
+  transition-duration: .6s;
+  cursor: pointer;
+}
+
+#start-game:hover {
+  background-color: white;
+  color: black;
+}
+
+#game-over {
   display: none;
-} */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+  position: fixed;
+  font-size: 50px;
+  opacity: 1;
+  color: whitesmoke;
+  border: 5px solid white;
+  padding: 10px;
+  background: none;
+  transition-duration: .6s;
+}

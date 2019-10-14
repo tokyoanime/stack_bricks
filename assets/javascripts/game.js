@@ -10,9 +10,11 @@ export default class Game {
     this.game = new Board(10, 20);
 
     this.score = 0;
+    this.highScores = [15000, 12000, 10000, 5000, 1000];
     this.lineCount = 0;
     this.level = level;
     this.isPaused = false;
+    this.gameOver = false;
 
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
@@ -112,7 +114,7 @@ export default class Game {
 
     this.render();
     const requestAnimation = requestAnimationFrame(this.gameLoop.bind(this));
-    if (this.isPaused) {
+    if (this.isPaused || this.gameOver) {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       cancelAnimationFrame(requestAnimation);
     }
@@ -251,17 +253,19 @@ export default class Game {
     
     if (collission(this.game.playArea, this.currentBrick)) {
       this.game.playArea.forEach(row => row.fill(0));
-      this.score = 0;
-      this.lineCount = 0;
-      this.level = 0;
       this.previewBricks = [];
-
-      for (let i = 0; i < 4; i++) {
-        this.previewBricks.push(new Brick(this.game.playArea));
-      }
-      this.currentBrick = new Brick(this.game.playArea);
-      renderPreview(this.previewBricks);
-      this.displayScore();
+      this.gameOver = true;
+      document.getElementById('game-over').style.display = 'block';
+      
+      // this.score = 0;
+      // this.lineCount = 0;
+      // this.level = 0;
+      // for (let i = 0; i < 4; i++) {
+      //   this.previewBricks.push(new Brick(this.game.playArea));
+      // }
+      // this.currentBrick = new Brick(this.game.playArea);
+      // renderPreview(this.previewBricks);
+      // this.displayScore();
     };
   };
 }
