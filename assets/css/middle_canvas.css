@@ -57,7 +57,7 @@ canvas {
   font-size: 50px;
   opacity: 1;
   color: whitesmoke;
-  border: 5px solid white;
+  /* border: 5px solid white; */
   padding: 10px;
   background: black;
   transition-duration: .6s;
