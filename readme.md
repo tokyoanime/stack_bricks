@@ -21,5 +21,10 @@ Stack Bricks is a JavaScript game inspired by the classic game Tetris.
 
 ## To-dos/future features
 
++ Add game music
 + Enable player to hold brick
-+ Start/end game screen
++ Enable hard drop
++ Animate clearing of line
++ Show ghost piece
++ Keep high score in backend server instead of local storage
++ Game room server to allow for multiplayer
