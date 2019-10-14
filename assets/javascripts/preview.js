@@ -1,6 +1,5 @@
 const previewIds = ['fPreview', 'sPreview', 'tPreview', 'lPreview']
 const renderPreview = (previewBricks) => {
-  // debugger;
   previewBricks.forEach((brick, i) => {
     const cvs = document.getElementById(previewIds[i]);
     const context = cvs.getContext('2d');

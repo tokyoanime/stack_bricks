@@ -413,11 +413,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _brick__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./brick */ "./assets/javascripts/brick.js");
 /* harmony import */ var _collission__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./collission */ "./assets/javascripts/collission.js");
 /* harmony import */ var _preview__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./preview */ "./assets/javascripts/preview.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -427,39 +442,58 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var Game =
 /*#__PURE__*/
-function () {
-  function Game(level) {
-    var _this = this;
+function (_React$Component) {
+  _inherits(Game, _React$Component);
+
+  function Game(props) {
+    var _this;
 
     _classCallCheck(this, Game);
 
-    // create a 2D array of 10 x 20
-    this.game = new _board__WEBPACK_IMPORTED_MODULE_1__["default"](10, 20);
-    this.score = 0;
-    this.highScores = [15000, 12000, 10000, 5000, 1000];
-    this.lineCount = 0;
-    this.level = level;
-    this.isPaused = false;
-    this.gameOver = false;
-    this.canvas = document.getElementById('tetris');
-    this.ctx = this.canvas.getContext('2d');
-    this.ctx.scale(27, 27);
-    this.previewBricks = [];
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Game).call(this, props)); // create a 2D array of 10 x 20
 
-    for (var i = 0; i < 4; i++) {
-      this.previewBricks.push(new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea));
+    _this.game = new _board__WEBPACK_IMPORTED_MODULE_1__["default"](10, 20);
+    _this.score = 0;
+    _this.highScores = [15000, 12000, 10000, 5000, 1000];
+    _this.lineCount = 0;
+    _this.level = 1;
+    _this.isPaused = false;
+    _this.gameOver = false; // assign high score from local storage if exists
+
+    if (localStorage.getItem('tetris-high-score')) {
+      _this.highScores = JSON.parse(localStorage.getItem('tetris-high-score'));
+    } else {
+      localStorage.setItem('tetris-high-score', JSON.stringify(_this.highScores));
     }
 
-    this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](this.game.playArea);
-    this.gameReset = this.gameReset.bind(this);
-    Object(_preview__WEBPACK_IMPORTED_MODULE_4__["default"])(this.previewBricks);
-    this.displayScore();
-    this.displayLevel();
-    this.gameLoop();
-    this.dropCounter = 0;
-    this.dropInterval = 1000;
-    this.lastTime = 0;
+    ;
+    _this.canvas = document.getElementById('tetris');
+    _this.ctx = _this.canvas.getContext('2d');
+
+    _this.ctx.clearRect(0, 0, _this.canvas.width, _this.canvas.height);
+
+    _this.previewBricks = [];
+
+    for (var i = 0; i < 4; i++) {
+      _this.previewBricks.push(new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](_this.game.playArea));
+    }
+
+    _this.currentBrick = new _brick__WEBPACK_IMPORTED_MODULE_2__["default"](_this.game.playArea);
+    _this.gameReset = _this.gameReset.bind(_assertThisInitialized(_this));
+    Object(_preview__WEBPACK_IMPORTED_MODULE_4__["default"])(_this.previewBricks);
+
+    _this.displayScore();
+
+    _this.displayLevel();
+
+    _this.gameLoop();
+
+    _this.dropCounter = 0;
+    _this.dropInterval = 1000;
+    _this.lastTime = 0;
     document.addEventListener('keydown', function (e) {
+      if (_this.gameOver) return;
+
       switch (e.keyCode) {
         case 27:
           e.preventDefault();
@@ -529,6 +563,7 @@ function () {
 
       ;
     });
+    return _this;
   } // loop function
 
 
@@ -536,6 +571,7 @@ function () {
     key: "gameLoop",
     value: function gameLoop() {
       var timestamp = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      this.displayLineCount();
       var deltatime = timestamp - this.lastTime;
       this.lastTime = timestamp;
       var rows = 0;
@@ -604,14 +640,16 @@ function () {
   }, {
     key: "render",
     value: function render() {
-      // renderPreview(this.previewBricks);
+      this.ctx.save();
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.scale(27, 27);
       this.game.drawGrid(this.ctx, 10, 20);
       this.currentBrick.drawBrick(this.ctx, this.game.playArea, {
         x: 0,
         y: 0
       });
       this.currentBrick.drawBrick(this.ctx, this.currentBrick.brick, this.currentBrick.pos);
+      this.ctx.restore();
     }
   }, {
     key: "updateScore",
@@ -735,15 +773,22 @@ function () {
         });
         this.previewBricks = [];
         this.gameOver = true;
-        document.getElementById('game-over').style.display = 'block'; // this.score = 0;
-        // this.lineCount = 0;
-        // this.level = 0;
-        // for (let i = 0; i < 4; i++) {
-        //   this.previewBricks.push(new Brick(this.game.playArea));
-        // }
-        // this.currentBrick = new Brick(this.game.playArea);
-        // renderPreview(this.previewBricks);
-        // this.displayScore();
+        this.highScores.push(this.score);
+
+        var compareScore = function compareScore(a, b) {
+          return a - b;
+        };
+
+        var topScores = this.highScores.sort(compareScore).reverse().slice(0, 5);
+        localStorage.setItem('tetris-high-score', JSON.stringify(topScores));
+        var htmlScores = '';
+        var scoreList = document.getElementById('high-score-list');
+        scoreList.innerHTML = '';
+        topScores.forEach(function (score) {
+          htmlScores = htmlScores + "<li>".concat(score, "</li>");
+        });
+        scoreList.innerHTML = htmlScores;
+        document.getElementById('game-over-conainer').style.display = 'flex';
       }
 
       ;
@@ -751,7 +796,7 @@ function () {
   }]);
 
   return Game;
-}();
+}(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
 
 
 
@@ -769,7 +814,6 @@ __webpack_require__.r(__webpack_exports__);
 var previewIds = ['fPreview', 'sPreview', 'tPreview', 'lPreview'];
 
 var renderPreview = function renderPreview(previewBricks) {
-  // debugger;
   previewBricks.forEach(function (brick, i) {
     var cvs = document.getElementById(previewIds[i]);
     var context = cvs.getContext('2d');
@@ -891,9 +935,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -908,17 +952,22 @@ function (_React$Component) {
   _inherits(MiddleCanvas, _React$Component);
 
   function MiddleCanvas(props) {
+    var _this;
+
     _classCallCheck(this, MiddleCanvas);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(MiddleCanvas).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MiddleCanvas).call(this, props));
+    _this.startGame = _this.startGame.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(MiddleCanvas, [{
     key: "startGame",
     value: function startGame() {
       document.getElementById('start-game').style.display = 'none';
-      var level = 1;
-      var game = new _assets_javascripts_game__WEBPACK_IMPORTED_MODULE_1__["default"](level);
+      document.getElementById('game-over-conainer').style.display = 'none';
+      document.getElementById('gamePaused').style.display = 'none';
+      new _assets_javascripts_game__WEBPACK_IMPORTED_MODULE_1__["default"]();
     }
   }, {
     key: "render",
@@ -935,8 +984,21 @@ function (_React$Component) {
         id: "start-game",
         onClick: this.startGame
       }, "START"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "game-over"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "GAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "OVER")));
+        id: "game-over-conainer"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "game-over-title"
+      }, "GAME OVER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "high-score-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "high-score-title"
+      }, "HIGH SCORE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "high-score"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        id: "high-score-list"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "10000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "5000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "2000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "1000"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, "599")))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "play-again",
+        onClick: this.startGame
+      }, "PLAY AGAIN")));
     }
   }]);
 

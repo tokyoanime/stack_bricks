@@ -3,23 +3,32 @@ import Board from './board';
 import Brick from './brick';
 import collission from './collission';
 import renderPreview from './preview';
+import React from 'react';
 
-export default class Game {
-  constructor(level) {
+export default class Game extends React.Component{
+  constructor(props) {
+    super(props);
     // create a 2D array of 10 x 20
     this.game = new Board(10, 20);
 
     this.score = 0;
     this.highScores = [15000, 12000, 10000, 5000, 1000];
     this.lineCount = 0;
-    this.level = level;
+    this.level = 1;
     this.isPaused = false;
     this.gameOver = false;
 
+    // assign high score from local storage if exists
+    if (localStorage.getItem('tetris-high-score')) {
+      this.highScores = JSON.parse(localStorage.getItem('tetris-high-score'));
+    } else {
+      localStorage.setItem('tetris-high-score', JSON.stringify(this.highScores));
+    };
+
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    this.ctx.scale(27, 27);
     this.previewBricks = [];
 
     for (let i = 0; i < 4; i++) {
@@ -39,6 +48,8 @@ export default class Game {
     this.lastTime = 0;
 
     document.addEventListener('keydown', e => {
+      if (this.gameOver) return;
+
       switch (e.keyCode) {
         case 27:
           e.preventDefault();
@@ -93,6 +104,8 @@ export default class Game {
 
   // loop function
   gameLoop(timestamp = 0) {
+    this.displayLineCount();
+
     let deltatime = timestamp - this.lastTime;
     this.lastTime = timestamp;
     let rows = 0;
@@ -150,11 +163,13 @@ export default class Game {
   }
 
   render() {
-    // renderPreview(this.previewBricks);
+    this.ctx.save();
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.scale(27, 27);
     this.game.drawGrid(this.ctx, 10, 20);
     this.currentBrick.drawBrick(this.ctx, this.game.playArea, {x: 0, y: 0});
     this.currentBrick.drawBrick(this.ctx, this.currentBrick.brick, this.currentBrick.pos);
+    this.ctx.restore();
   }
 
   updateScore(rowCount) {
@@ -255,17 +270,23 @@ export default class Game {
       this.game.playArea.forEach(row => row.fill(0));
       this.previewBricks = [];
       this.gameOver = true;
-      document.getElementById('game-over').style.display = 'block';
-      
-      // this.score = 0;
-      // this.lineCount = 0;
-      // this.level = 0;
-      // for (let i = 0; i < 4; i++) {
-      //   this.previewBricks.push(new Brick(this.game.playArea));
-      // }
-      // this.currentBrick = new Brick(this.game.playArea);
-      // renderPreview(this.previewBricks);
-      // this.displayScore();
+
+      this.highScores.push(this.score);
+
+      const compareScore = (a, b) => { return a - b};
+      const topScores = this.highScores.sort(compareScore).reverse().slice(0,5);
+
+      localStorage.setItem('tetris-high-score', JSON.stringify(topScores));
+
+      let htmlScores = '';
+      let scoreList = document.getElementById('high-score-list');
+      scoreList.innerHTML = '';
+      topScores.forEach(score => {
+        htmlScores = htmlScores + `<li>${score}</li>`;
+      });
+      scoreList.innerHTML = htmlScores;
+
+      document.getElementById('game-over-conainer').style.display = 'flex';
     };
   };
 }

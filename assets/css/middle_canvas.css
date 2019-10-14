@@ -34,8 +34,8 @@ canvas {
   position: fixed;
   font-size: 50px;
   opacity: 1;
-  color: whitesmoke;
-  border: 5px solid white;
+  color: greenyellow;
+  border: 4px solid white;
   padding: 10px;
   background: none;
   transition-duration: .6s;
@@ -43,11 +43,11 @@ canvas {
 }
 
 #start-game:hover {
-  background-color: white;
+  background-color: greenyellow;
   color: black;
 }
 
-#game-over {
+#game-over-conainer {
   display: none;
   justify-content: center;
   align-items: center;
@@ -59,6 +59,56 @@ canvas {
   color: whitesmoke;
   border: 5px solid white;
   padding: 10px;
+  background: black;
+  transition-duration: .6s;
+}
+
+#play-again {
+  margin: 20px 0px 20px 0px;
+  border-bottom: 3px solid transparent;
+  font-size: 30px;
   background: none;
   transition-duration: .6s;
+  color: greenyellow;
+  cursor: pointer;
+}
+
+#play-again:hover {
+  border-bottom: 3px solid greenyellow;
+}
+
+.game-over-title {
+  color: red;
+  font-size: 30px;
+  border-bottom: 3px solid red;
+}
+
+.high-score-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 30px 5px 5px 5px;
+  border: 2px solid white;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 25px;
+}
+
+.high-score-title {
+  /* border-bottom: 1px solid white; */
+}
+
+.high-score {
+  width: 100%;
+  font-size: 20px;
+}
+
+.high-score > ul li {
+  border: .5px solid black;
+  border-radius: 5px;
+  background-color: white;
+  padding-left: 10px;
+  color: black;
+  /* padding: 5px 10px 5px 10px; */
 }
