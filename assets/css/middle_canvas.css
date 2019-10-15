@@ -47,7 +47,7 @@ canvas {
   color: black;
 }
 
-#game-over-container {
+#game-over-conainer {
   display: none;
   justify-content: center;
   align-items: center;

@@ -286,7 +286,7 @@ export default class Game extends React.Component{
       });
       scoreList.innerHTML = htmlScores;
 
-      document.getElementById('game-over-container').style.display = 'flex';
+      document.getElementById('game-over-conainer').style.display = 'flex';
     };
   };
 }
