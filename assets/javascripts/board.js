@@ -25,7 +25,7 @@ export default class Board {
       ctx.lineTo(w, j);
     }
     ctx.lineWidth = .01;
-    ctx.strokeStyle = '#780187';
+    ctx.strokeStyle = 'greenyellow';
     ctx.stroke();
   }
 

@@ -141,7 +141,7 @@ function () {
       }
 
       ctx.lineWidth = .01;
-      ctx.strokeStyle = '#780187';
+      ctx.strokeStyle = 'greenyellow';
       ctx.stroke();
     } // clear line once every square within a single row is filled
     // increase score based on number of row cleared
@@ -788,7 +788,7 @@ function (_React$Component) {
           htmlScores = htmlScores + "<li>".concat(score, "</li>");
         });
         scoreList.innerHTML = htmlScores;
-        document.getElementById('game-over-conainer').style.display = 'flex';
+        document.getElementById('game-over-container').style.display = 'flex';
       }
 
       ;
@@ -965,7 +965,7 @@ function (_React$Component) {
     key: "startGame",
     value: function startGame() {
       document.getElementById('start-game').style.display = 'none';
-      document.getElementById('game-over-conainer').style.display = 'none';
+      document.getElementById('game-over-container').style.display = 'none';
       document.getElementById('gamePaused').style.display = 'none';
       new _assets_javascripts_game__WEBPACK_IMPORTED_MODULE_1__["default"]();
     }
@@ -984,7 +984,7 @@ function (_React$Component) {
         id: "start-game",
         onClick: this.startGame
       }, "START"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        id: "game-over-conainer"
+        id: "game-over-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "game-over-title"
       }, "GAME OVER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

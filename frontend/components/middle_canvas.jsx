@@ -9,7 +9,7 @@ class MiddleCanvas extends React.Component {
 
   startGame() {
     document.getElementById('start-game').style.display = 'none';
-    document.getElementById('game-over-conainer').style.display = 'none';
+    document.getElementById('game-over-container').style.display = 'none';
     document.getElementById('gamePaused').style.display = 'none';
     
     new Game();
@@ -23,7 +23,7 @@ class MiddleCanvas extends React.Component {
           <p>PAUSED</p>
         </div>
         <div id="start-game" onClick={this.startGame}>START</div>
-        <div id="game-over-conainer">
+        <div id="game-over-container">
           <div className="game-over-title">GAME OVER</div>
           <div className="high-score-container">
             <div className="high-score-title">

@@ -5,6 +5,7 @@
   padding: 0px;
   opacity: .8;
   background-color:#000;
+  border: 1px solid white;
 }
 
 canvas {
@@ -47,7 +48,7 @@ canvas {
   color: black;
 }
 
-#game-over-conainer {
+#game-over-container {
   display: none;
   justify-content: center;
   align-items: center;
