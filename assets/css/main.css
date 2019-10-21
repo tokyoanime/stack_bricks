@@ -76,3 +76,11 @@ body {
   flex-direction: row;
   justify-content: center;
 }
+
+.control {
+  animation: blinker 5s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: .5; }
+}
