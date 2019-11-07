@@ -121,7 +121,6 @@ export default class Game extends React.Component{
         this.updateLineCount(rows);
         this.updateLevel();
       }
-
       this.dropCounter = 0;
     };
 

@@ -45,7 +45,6 @@ export default class Brick {
       case "Z":
         return zBrick;
       case "I":
-        // this piece has a problem with right bound rotation
         return iBrick;
       case "O":
         return oBrick;
