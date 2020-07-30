@@ -94,13 +94,27 @@ class SplashPage extends React.Component {
               Keyboard Control
             </div>
             <div className='modal-body'>
-              <div>ESC : Pause/Resume Game</div>
-              <div>Q : Rotate Left</div>
-              <div>Up Arrow : Rotate Right</div>
-              <div>Left Arrow : Move Left</div>
-              <div>Right Arrow : Move Right</div>
-              <div>Down Arrow : Soft Drop</div>
-              <div>Space : Hard Drop</div>
+              <div>
+                <span className='keyboard-key'>ESC</span> - Pause/Resume Game
+              </div>
+              <div>
+                <span className='keyboard-key'>Q</span> - Rotate Left
+              </div>
+              <div>
+                <span className='keyboard-key'>Up Arrow</span> - Rotate Right
+              </div>
+              <div>
+                <span className='keyboard-key'>Left Arrow</span> - Move Left
+              </div>
+              <div>
+                <span className='keyboard-key'>Right Arrow</span> - Move Right
+              </div>
+              <div>
+                <span className='keyboard-key'>Down Arrow</span> - Soft Drop
+              </div>
+              <div>
+                <span className='keyboard-key'>Space</span> - Hard Drop
+              </div>
             </div>
           </div>
         </div>
