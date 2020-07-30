@@ -1162,13 +1162,13 @@ var SplashPage = /*#__PURE__*/function (_React$Component) {
     key: "handleModal",
     value: function handleModal(e, currentModalId) {
       var currentModal = document.getElementById(currentModalId);
-      currentModal.style.display = "block";
+      currentModal.style.display = 'block';
     }
   }, {
     key: "closeModal",
     value: function closeModal(e, currentModalId) {
       var currentModal = document.getElementById(currentModalId);
-      currentModal.style.display = "none";
+      currentModal.style.display = 'none';
     }
   }, {
     key: "render",
@@ -1187,19 +1187,19 @@ var SplashPage = /*#__PURE__*/function (_React$Component) {
         className: "about",
         id: "modalContent",
         onClick: function onClick(e) {
-          return _this.handleModal(e, "myModalAbout");
+          return _this.handleModal(e, 'myModalAbout');
         }
       }, "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "gameplay-info",
         id: "modalContent",
         onClick: function onClick(e) {
-          return _this.handleModal(e, "myModalGamePlayInfo");
+          return _this.handleModal(e, 'myModalGamePlayInfo');
         }
       }, "Gameplay Info"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "control",
         id: "modalContent",
         onClick: function onClick(e) {
-          return _this.handleModal(e, "myModalControl");
+          return _this.handleModal(e, 'myModalControl');
         }
       }, "Control"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "gitHub"
@@ -1223,7 +1223,7 @@ var SplashPage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "close",
         onClick: function onClick(e) {
-          return _this.closeModal(e, "myModalAbout");
+          return _this.closeModal(e, 'myModalAbout');
         }
       }, "\xD7"), "About"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-body"
@@ -1237,7 +1237,7 @@ var SplashPage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "close",
         onClick: function onClick(e) {
-          return _this.closeModal(e, "myModalControl");
+          return _this.closeModal(e, 'myModalControl');
         }
       }, "\xD7"), "Keyboard Control"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-body keyboard-control"
@@ -1251,7 +1251,7 @@ var SplashPage = /*#__PURE__*/function (_React$Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "close",
         onClick: function onClick(e) {
-          return _this.closeModal(e, "myModalGamePlayInfo");
+          return _this.closeModal(e, 'myModalGamePlayInfo');
         }
       }, "\xD7"), "General Gameplay Info"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "modal-body"

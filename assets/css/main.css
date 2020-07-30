@@ -5,7 +5,7 @@ body {
 .bg {
   background-image: url('../images/bg_8.jpeg');
 
-    /* Full height */
+  /* Full height */
   height: 100vh;
 
   /* Center and scale the image nicely */
@@ -30,7 +30,7 @@ body {
   min-width: 800px;
   font-family: 'Orbitron', sans-serif;
   font-weight: bold;
-  color: #FFFAFA;
+  color: #fffafa;
 }
 
 .tetris-title-container {
@@ -39,7 +39,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
 
 .tetris-title {
@@ -62,7 +62,7 @@ body {
   height: 25px;
   margin: 0px 10px 0px 10px;
   border-bottom: 2px solid transparent;
-  transition-duration: .5s;
+  transition-duration: 0.5s;
 }
 
 .tetris-title-nav > div:hover {
@@ -77,10 +77,10 @@ body {
   justify-content: center;
 }
 
-.control {
+/* .control {
   animation: blinker 5s linear infinite;
 }
 
 @keyframes blinker {
   50% { opacity: .5; }
-}
+} */
