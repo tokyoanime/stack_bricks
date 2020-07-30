@@ -5,7 +5,7 @@ import collission from './collission';
 import renderPreview from './preview';
 import React from 'react';
 
-export default class Game extends React.Component{
+export default class Game extends React.Component {
   constructor(props) {
     super(props);
     // create a 2D array of 10 x 20
@@ -22,8 +22,11 @@ export default class Game extends React.Component{
     if (localStorage.getItem('tetris-high-score')) {
       this.highScores = JSON.parse(localStorage.getItem('tetris-high-score'));
     } else {
-      localStorage.setItem('tetris-high-score', JSON.stringify(this.highScores));
-    };
+      localStorage.setItem(
+        'tetris-high-score',
+        JSON.stringify(this.highScores)
+      );
+    }
 
     this.canvas = document.getElementById('tetris');
     this.ctx = this.canvas.getContext('2d');
@@ -47,7 +50,7 @@ export default class Game extends React.Component{
     this.dropInterval = 1000;
     this.lastTime = 0;
 
-    document.addEventListener('keydown', e => {
+    document.addEventListener('keydown', (e) => {
       if (this.gameOver) return;
 
       switch (e.keyCode) {
@@ -96,9 +99,14 @@ export default class Game extends React.Component{
           e.preventDefault();
           Control.playerRotate(1, this.currentBrick, this.game.playArea);
           break;
+        case 32:
+          // hard drop when space bar is pressed
+          e.preventDefault();
+          this.dropInterval = 0;
+          break;
         default:
           break;
-      };
+      }
     });
   }
 
@@ -122,7 +130,7 @@ export default class Game extends React.Component{
         this.updateLevel();
       }
       this.dropCounter = 0;
-    };
+    }
 
     this.render();
     const requestAnimation = requestAnimationFrame(this.gameLoop.bind(this));
@@ -130,7 +138,7 @@ export default class Game extends React.Component{
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       cancelAnimationFrame(requestAnimation);
     }
-  };
+  }
 
   // record current position of the active brick in playArea
   updateGameState() {
@@ -140,11 +148,11 @@ export default class Game extends React.Component{
       row.forEach((col, x) => {
         if (col) {
           playArea[y + brick.pos.y][x + brick.pos.x] = col;
-        };
+        }
       });
     });
     this.game.playArea = playArea;
-  };
+  }
 
   // display current score in browser
   displayScore() {
@@ -166,8 +174,12 @@ export default class Game extends React.Component{
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.scale(27, 27);
     this.game.drawGrid(this.ctx, 10, 20);
-    this.currentBrick.drawBrick(this.ctx, this.game.playArea, {x: 0, y: 0});
-    this.currentBrick.drawBrick(this.ctx, this.currentBrick.brick, this.currentBrick.pos);
+    this.currentBrick.drawBrick(this.ctx, this.game.playArea, { x: 0, y: 0 });
+    this.currentBrick.drawBrick(
+      this.ctx,
+      this.currentBrick.brick,
+      this.currentBrick.pos
+    );
     this.ctx.restore();
   }
 
@@ -264,28 +276,33 @@ export default class Game extends React.Component{
     this.currentBrick = this.previewBricks.shift();
     this.previewBricks.push(new Brick(this.game.playArea));
     renderPreview(this.previewBricks);
-    
+
     if (collission(this.game.playArea, this.currentBrick)) {
-      this.game.playArea.forEach(row => row.fill(0));
+      this.game.playArea.forEach((row) => row.fill(0));
       this.previewBricks = [];
       this.gameOver = true;
 
       this.highScores.push(this.score);
 
-      const compareScore = (a, b) => { return a - b};
-      const topScores = this.highScores.sort(compareScore).reverse().slice(0,5);
+      const compareScore = (a, b) => {
+        return a - b;
+      };
+      const topScores = this.highScores
+        .sort(compareScore)
+        .reverse()
+        .slice(0, 5);
 
       localStorage.setItem('tetris-high-score', JSON.stringify(topScores));
 
       let htmlScores = '';
       let scoreList = document.getElementById('high-score-list');
       scoreList.innerHTML = '';
-      topScores.forEach(score => {
+      topScores.forEach((score) => {
         htmlScores = htmlScores + `<li>${score}</li>`;
       });
       scoreList.innerHTML = htmlScores;
 
       document.getElementById('game-over-container').style.display = 'flex';
-    };
-  };
+    }
+  }
 }
