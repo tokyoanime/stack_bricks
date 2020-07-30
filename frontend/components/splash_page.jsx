@@ -93,7 +93,15 @@ class SplashPage extends React.Component {
               </span>
               Keyboard Control
             </div>
-            <div className='modal-body keyboard-control'></div>
+            <div className='modal-body'>
+              <div>ESC : Pause/Resume Game</div>
+              <div>Q : Rotate Left</div>
+              <div>Up Arrow : Rotate Right</div>
+              <div>Left Arrow : Move Left</div>
+              <div>Right Arrow : Move Right</div>
+              <div>Down Arrow : Soft Drop</div>
+              <div>Space : Hard Drop</div>
+            </div>
           </div>
         </div>
         <div id='myModalGamePlayInfo' className='modal'>
